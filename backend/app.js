@@ -3,6 +3,7 @@ const bodyParser = require("body-parser")
 const app= express()
 const cors=require('cors')
 const useRouter=require('./routes/user')
+const adminRouter=require('./routes/admin')
 require('dotenv').config({path:'./config/.env'})
 require("./config/dbconnection");
 
@@ -13,3 +14,4 @@ app.use(cors())
 app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({extended:true}))
 app.use('/',useRouter)
+app.use('/admin',adminRouter)
