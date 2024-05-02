@@ -3,10 +3,10 @@ const bcrypt= require('bcrypt')
 
 module.exports={
 
-    findUser:async(data)=>{
+    findUser:async()=>{
         try{
     
-            const user= await User.findOne({email:data})
+            const user= await User.find({})
             return user;
         }catch(error){
             console.log(error);

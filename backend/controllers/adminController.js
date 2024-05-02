@@ -30,9 +30,9 @@ module.exports = {
   },
   dashboard: async (req, res) => {
 
-    const users=await userH.findUser()
+    const user=await userH.findUser()
     if(user){
-        res.status(200).json({message:'user data fetched',users:users})
+        res.status(200).json({message:'user data fetched',users:user})
     }else{
         res.status(400).json({message:'not fetched'})
     }
