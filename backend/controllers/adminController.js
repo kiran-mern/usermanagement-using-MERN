@@ -1,7 +1,7 @@
 const Admin = require("../models/admin");
 const { token } = require("../utils/jwt");
 const json = require("body-parser");
-const userH= require('../helpers/userHelper')
+const userH = require("../helpers/userHelper");
 
 module.exports = {
   adminLogin: async (req, res) => {
@@ -29,12 +29,17 @@ module.exports = {
     }
   },
   dashboard: async (req, res) => {
-
-    const user=await userH.findUser()
-    if(user){
-        res.status(200).json({message:'user data fetched',users:user})
-    }else{
-        res.status(400).json({message:'not fetched'})
+    const user = await userH.findUser();
+    if (user) {
+      res.status(200).json({ message: "user data fetched", users: user });
+    } else {
+      res.status(400).json({ message: "not fetched" });
     }
+  },
+  deleteUser: async (req, res) => {
+    console.log(req.body);
+    const id = req.body.deleteUserId;
+    const delUser = await userH.deleteUser(id);
+    console.log(delUser);
   },
 };

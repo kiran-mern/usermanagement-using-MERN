@@ -8,22 +8,33 @@ import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
 import axios from "axios";
 
-function createData(name, calories, fat) {
-  return { name, calories, fat };
-}
 
-// const rows = [
-//   createData('Frozen yoghurt', 159, 6.0, 24, 4.0),
-//   createData('Ice cream sandwich', 237, 9.0, 37, 4.3),
-//   createData('Eclair', 262, 16.0, 24, 6.0),
-//   createData('Cupcake', 305, 3.7, 67, 4.3),
-//   createData('Gingerbread', 356, 16.0, 49, 3.9),
-// ];
 
 export default function DenseTable() {
-  const [user, setUser] = React.useState("");
+  const [user, setUser] =useState([]);
 
-  const token = localStorage.setItem("admin");
+  //delete user
+  const[openDelete,setOpenDelete]=useState(false)
+  const[deleteUSerId,setDeleteUserId]=useState('')
+  const[refresh,setRefresh]=useState(0)
+
+  const handleDelete=(id)=>{
+    console.log('de',id)
+    axios.delete('http://localhost:3000/admin/deleteuser',{
+        headers:{
+            Authorization:token
+        },
+        data:{
+            deleteUserId:id
+        }
+    })
+    .then((response)=>{
+        console.log(response);
+        setRefresh((prev)=>prev+1)
+    })
+  }
+
+  const token = localStorage.getItem("admin");
   useEffect(() => {
     try {
       const fetchuser = async () => {
@@ -59,7 +70,7 @@ export default function DenseTable() {
         <TableBody>
           {user.map((user) => (
             <TableRow
-              key={user.name}
+              key={user._id}
               sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
             >
               <TableCell component="th" scope="row">
@@ -71,7 +82,7 @@ export default function DenseTable() {
                 <button onClick={() => {}}>Edit</button>
               </TableCell>
               <TableCell align="right">
-                <button onClick={() => {}}>Delete</button>
+                <button onClick={() => {handleDelete(user._id)}}>Delete</button>
               </TableCell>
             </TableRow>
           ))}

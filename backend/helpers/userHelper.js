@@ -2,6 +2,12 @@ const User=require('../models/user')
 const bcrypt= require('bcrypt') 
 
 module.exports={
+    findOne:async(email)=>{
+        const user=await User.findOne({email})
+        return user;
+
+
+    },
 
     findUser:async()=>{
         try{
@@ -34,6 +40,17 @@ module.exports={
 
         }
     },
+    deleteUser:async(id)=>{
+       try {
+         const bin=await User.deleteOne({_id:id})
+         console.log(bin);
+         return bin
+       } catch (error) {
+        console.log(error);
+        
+       }
+
+    }
 
 }
 

@@ -9,7 +9,7 @@ module.exports = {
     try {
       const { name, email, password, phone } = req.body;
       const datas = req.body;
-      const user = await userH.findUser(email);
+      const user = await userH.findOne(email);
 
       if (user) {
         res.status(400).json({ error: "User already exists" });
