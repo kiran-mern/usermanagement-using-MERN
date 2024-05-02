@@ -26,7 +26,7 @@ module.exports = {
   loginUser: async (req, res) => {
     try{
       const{email,password}=req.body
-      const user=await userH.findUser(email)
+      const user=await userH.findOne(email)
 
       if(!user){
         res.status(400).json({messsage:'invalid user'})
