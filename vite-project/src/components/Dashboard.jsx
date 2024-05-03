@@ -13,51 +13,51 @@ import { HiOutlineExclamationCircle } from "react-icons/hi";
 export default function DenseTable() {
   const [user, setUser] = useState([]);
   const [openModal, setOpenModal] = useState(false);
-
-  //delete user
-  const [openDelete, setOpenDelete] = useState(false);
-  const [deleteUSerId, setDeleteUserId] = useState("");
+  const [deleteUserId, setDeleteUserId] = useState("");
   const [refresh, setRefresh] = useState(0);
-  const openFunction = () => {
+
+  const token = localStorage.getItem("admin");
+
   const handleDelete = (id) => {
     setOpenModal(true);
-    console.log("de", id);
+    setDeleteUserId(id);
+  };
+
+  const confirmDelete = () => {
     axios
       .delete("http://localhost:3000/admin/deleteuser", {
         headers: {
           Authorization: token,
         },
         data: {
-          deleteUserId: id,
+          deleteUserId: deleteUserId,
         },
       })
       .then((response) => {
         console.log(response);
         setRefresh((prev) => prev + 1);
+        setOpenModal(false); // Close the modal after successful delete
+      })
+      .catch((error) => {
+        console.error(error);
       });
   };
-};
 
-  const token = localStorage.getItem("admin");
   useEffect(() => {
     try {
-      const fetchuser = async () => {
-        const response = await axios.get(
-          "http://localhost:3000/admin/dashboard",
-          {
-            headers: {
-              Authorization: `${token}`,
-            },
-          }
-        );
-        console.log(response);
+      const fetchUser = async () => {
+        const response = await axios.get("http://localhost:3000/admin/dashboard", {
+          headers: {
+            Authorization: `${token}`,
+          },
+        });
         setUser(response.data.users);
       };
-      fetchuser();
+      fetchUser();
     } catch (error) {
       console.log(error);
     }
-  }, []);
+  }, [token, refresh]);
 
   return (
     <>
@@ -73,27 +73,21 @@ export default function DenseTable() {
             </TableRow>
           </TableHead>
           <TableBody>
-            {user.map((user) => (
-              <TableRow
-                key={user._id}
+            {user.map((userData) => (
+              <TableRow 
+                key={userData._id}
                 sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
               >
                 <TableCell component="th" scope="row">
-                  {user.name}
+                  {userData.name}
                 </TableCell>
-                <TableCell align="center">{user.email}</TableCell>
-                <TableCell align="center">{user.phone}</TableCell>
+                <TableCell align="center">{userData.email}</TableCell>
+                <TableCell align="center">{userData.phone}</TableCell>
                 <TableCell align="center">
                   <button onClick={() => {}}>Edit</button>
                 </TableCell>
                 <TableCell align="right">
-                  <button
-                    onClick={() => {
-                      openFunction(user._id);
-                    }}
-                  >
-                    Delete
-                  </button>
+                  <button onClick={() => handleDelete(userData._id)}>Delete</button>
                 </TableCell>
               </TableRow>
             ))}
@@ -115,7 +109,7 @@ export default function DenseTable() {
               Are you sure you want to delete this product?
             </h3>
             <div className="flex justify-center gap-4">
-              <Button color="failure" onClick={() => setOpenModal(false)}>
+              <Button color="failure" onClick={confirmDelete}>
                 {"Yes, I'm sure"}
               </Button>
               <Button color="gray" onClick={() => setOpenModal(false)}>
