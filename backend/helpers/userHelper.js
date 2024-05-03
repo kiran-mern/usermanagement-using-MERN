@@ -8,6 +8,12 @@ module.exports={
 
 
     },
+    dFinder:async(email)=>{
+        const user=await User.findOne({_id:email})
+        return user;
+
+
+    },
 
     findUser:async()=>{
         try{

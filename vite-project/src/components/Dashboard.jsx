@@ -34,7 +34,7 @@ export default function DenseTable() {
         },
       })
       .then((response) => {
-        console.log(response);
+        console.log('aaa',response);
         setRefresh((prev) => prev + 1);
         setOpenModal(false); // Close the modal after successful delete
       })
