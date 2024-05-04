@@ -10,11 +10,20 @@ import axios from "axios";
 import { Button, Modal } from "flowbite-react";
 import { HiOutlineExclamationCircle } from "react-icons/hi";
 
+// import EditForm from '../components/Register'
+
 export default function DenseTable() {
   const [user, setUser] = useState([]);
+  const [openEditModal,setOpenEditModal]=useState(false)
   const [openModal, setOpenModal] = useState(false);
   const [deleteUserId, setDeleteUserId] = useState("");
   const [refresh, setRefresh] = useState(0);
+
+  const[editUser,setEditUser]=useState({
+     name:'',
+     id:'',
+     value:' '
+  })
 
   const token = localStorage.getItem("admin");
 
@@ -22,6 +31,55 @@ export default function DenseTable() {
     setOpenModal(true);
     setDeleteUserId(id);
   };
+
+//   const handleEdit=()=>{
+//     axios.post('http://localhost:3000/admin/editUser',editUser,{
+//         headers:{
+//             Authorization: token,
+//         },
+//     })
+//     .then((response)=>{
+//         console.log(response);
+//         setUser(response.data.users)
+
+//     })
+//   }
+
+const handleEdit = (id) => {
+    // Find the user to edit
+    const userToEdit = user.find((item) => item._id === id);
+  
+    // Assuming you have form fields to edit the user's data
+    // You can set the edited data in the state
+    setEditUser({
+      id: id,
+      name: userToEdit.name, // Assuming you have a field to edit the name
+      email: userToEdit.email, // Assuming you have a field to edit the email
+      phone: userToEdit.phone, // Assuming you have a field to edit the phone
+    });
+  
+    // Open the modal or form to edit the user's data
+    setOpenEditModal(true);
+  };
+  
+  // This function will handle the submission of the edited data
+  const submitEdit = () => {
+    axios
+      .put(`http://localhost:3000/admin/editUser`, editUser, {
+        headers: {
+          Authorization: token,
+        },
+      })
+      .then((response) => {
+        console.log(response);
+        setUser(response.data.users);
+        setOpenEditModal(false); // Close the modal after successful edit
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+  };
+  
 
   const confirmDelete = () => {
     axios
@@ -84,7 +142,7 @@ export default function DenseTable() {
                 <TableCell align="center">{userData.email}</TableCell>
                 <TableCell align="center">{userData.phone}</TableCell>
                 <TableCell align="center">
-                  <button onClick={() => {}}>Edit</button>
+                  <button onClick={() =>handleEdit(userData._id)}>Edit</button>
                 </TableCell>
                 <TableCell align="right">
                   <button onClick={() => handleDelete(userData._id)}>Delete</button>
@@ -119,6 +177,44 @@ export default function DenseTable() {
           </div>
         </Modal.Body>
       </Modal>
+      <Modal
+  show={openEditModal}
+  size="md"
+  onClose={() => setOpenEditModal(false)}
+  popup
+>
+  <Modal.Header />
+  <Modal.Body>
+    <div className="text-center">
+      {/* Input fields for editing user data */}
+      <input
+        type="text"
+        value={editUser.name}
+        onChange={(e) =>
+          setEditUser({ ...editUser, name: e.target.value })
+        }
+      />
+      <input
+        type="email"
+        value={editUser.email}
+        onChange={(e) =>
+          setEditUser({ ...editUser, email: e.target.value })
+        }
+      />
+      <input
+        type="tel"
+        value={editUser.phone}
+        onChange={(e) =>
+          setEditUser({ ...editUser, phone: e.target.value })
+        }
+      />
+
+      {/* Button to submit the edited data */}
+      <button onClick={submitEdit}>Save</button>
+    </div>
+  </Modal.Body>
+</Modal>
+
     </>
   );
 }

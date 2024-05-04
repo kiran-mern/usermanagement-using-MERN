@@ -16,4 +16,24 @@ module.exports = {
         console.log(error);
     }
   },
+  updateuser:async(userId,data)=>{
+    try{
+        const {name,phone}=data
+        const update=await User.updateOne({
+            _id:userId},
+            {$set:{
+                name:name,
+                phone:phone
+
+            }
+        },{new:true})
+        console.log(update,'update');
+        return update
+    }
+    catch{(error)
+        console.log(error);
+
+    }
+
+  }
 };
