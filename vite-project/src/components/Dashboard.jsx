@@ -72,7 +72,8 @@ const handleEdit = (id) => {
       })
       .then((response) => {
         console.log(response);
-        setUser(response.data.users);
+        // setUser(response.data.users);
+        setRefresh((prev)=>prev+1)
         setOpenEditModal(false); // Close the modal after successful edit
       })
       .catch((error) => {
@@ -123,7 +124,9 @@ const handleEdit = (id) => {
         <Table sx={{ minWidth: 650 }} size="small" aria-label="a dense table">
           <TableHead>
             <TableRow>
-              <TableCell>Name</TableCell>
+              <TableCell>
+               Name
+              </TableCell>
               <TableCell align="center">Email</TableCell>
               <TableCell align="center">Phone</TableCell>
               <TableCell align="center">Action</TableCell>
