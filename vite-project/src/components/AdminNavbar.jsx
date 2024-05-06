@@ -1,4 +1,4 @@
-import  React,{useState} from 'react';
+import  React,{useState,useEffect} from 'react';
 import AppBar from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
 import Toolbar from '@mui/material/Toolbar';
@@ -11,13 +11,26 @@ import AdminAddUser from './adminAddUser'
 export default function AdminNavbar() {
 
     const [isModalOpen,setIsModalOpen]=useState(false)
+    // useEffect(()=>{
+    //     const handleAddUserClick = () => {
+
+    //         setIsModalOpen(true);
+    //       };
+        
+    //       const handleCloseModal = () => {
+    //         setIsModalOpen(false);
+    //       };
+
+    // })
     const handleAddUserClick = () => {
+
         setIsModalOpen(true);
       };
     
       const handleCloseModal = () => {
         setIsModalOpen(false);
       };
+   
   return (
     <Box sx={{ flexGrow: 1 }}>
       <AppBar position="static">
@@ -32,12 +45,15 @@ export default function AdminNavbar() {
             {/* <MenuIcon /> */}
           </IconButton>
           <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
-          <button style={{ backgroundColor: 'grey' }} > Add User</button>
+          <button style={{ backgroundColor: 'grey' }} onClick={handleAddUserClick}> Add User</button>
           </Typography>
           <Button color="inherit">Login</Button>
         </Toolbar>
       </AppBar>
-      <AdminAddUser isOpen={isModalOpen} onClose={handleCloseModal}/>
+      {
+        isModalOpen&&
+      <AdminAddUser/>
+      }
     </Box>
   );
 }

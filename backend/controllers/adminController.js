@@ -58,5 +58,27 @@ module.exports = {
     const update=await adminH.updateuser(id,data)
     res.status(200).json({message:'updated successfully'})
 
+  },
+  addUser:async(req,res)=>{
+    try{
+        const data=req.body
+        console.log(data,'data');
+        const existingUser = await userH.adminUser(data.email);
+        if(existingUser){
+            res.status(400).json({message:'user already exist'})
+        }
+        else{
+            const user=await adminH.addUserByAdmin(data);
+            console.log('admin_user',user);
+            res.status(200).json({message:'user added by admin'})
+        }
+
+
+    }
+    catch(error){
+        console.log(error);
+        // res.status(400).json({message:'internal error'})
+
+    }
   }
 };

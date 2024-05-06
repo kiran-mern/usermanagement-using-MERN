@@ -19,6 +19,17 @@ module.exports={
         try{
     
             const user= await User.find({})
+            console.log(user,'s');
+            return user;
+        }catch(error){
+            console.log(error);
+    
+        }
+    },
+    adminUser:async(data)=>{
+        try{
+    
+            const user= await User.find({email:data})
             return user;
         }catch(error){
             console.log(error);
