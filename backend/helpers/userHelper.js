@@ -19,7 +19,17 @@ module.exports={
         try{
     
             const user= await User.find({})
-            console.log(user,'s');
+            return user;
+        }catch(error){
+            console.log(error);
+    
+        }
+    },
+    findThatUser:async(data)=>{
+        try{
+    
+            const user= await User.findOne({data})
+            console.log(user,'two')
             return user;
         }catch(error){
             console.log(error);

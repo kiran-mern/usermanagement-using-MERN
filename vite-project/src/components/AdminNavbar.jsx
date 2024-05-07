@@ -9,19 +9,10 @@ import IconButton from '@mui/material/IconButton';
 import AdminAddUser from './adminAddUser'
 
 export default function AdminNavbar() {
+  const token=localStorage.getItem('token')
 
     const [isModalOpen,setIsModalOpen]=useState(false)
-    // useEffect(()=>{
-    //     const handleAddUserClick = () => {
-
-    //         setIsModalOpen(true);
-    //       };
-        
-    //       const handleCloseModal = () => {
-    //         setIsModalOpen(false);
-    //       };
-
-    // })
+    
     const handleAddUserClick = () => {
 
         setIsModalOpen(true);
@@ -29,6 +20,12 @@ export default function AdminNavbar() {
     
       const handleCloseModal = () => {
         setIsModalOpen(false);
+      };
+
+      const logOut = () => {
+        localStorage.removeItem("token");
+        setUser("");
+        navigate("/");
       };
    
   return (
@@ -47,7 +44,7 @@ export default function AdminNavbar() {
           <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
           <button style={{ backgroundColor: 'grey' }} onClick={handleAddUserClick}> Add User</button>
           </Typography>
-          <Button color="inherit">Login</Button>
+          <Button color="inherit" onClick={logOut}>Login</Button>
         </Toolbar>
       </AppBar>
       {

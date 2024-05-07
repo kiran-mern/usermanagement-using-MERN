@@ -27,6 +27,7 @@ module.exports = {
     try{
       const{email,password}=req.body
       const user=await userH.findOne(email)
+      console.log('one',user);
 
       if(!user){
         res.status(400).json({messsage:'invalid user'})
@@ -58,7 +59,8 @@ module.exports = {
       console.log(req.user);
 
       if(req.user){
-        const user=await userH.findUser(req.user.email)
+        const user=await userH.findThatUser(req.user.email)
+        res.status(200).json({message:'done',users:user.name})
       }
     })
 

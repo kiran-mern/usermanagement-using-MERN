@@ -12,6 +12,7 @@ import axios from "axios";
 const Navbar = () => {
   const navigate = useNavigate();
   const [user, setUser] = useState("");
+  console.log(user,'anyone');
 
   useEffect(() => {
     try {
@@ -25,7 +26,8 @@ const Navbar = () => {
             },
           });
           if (response.status == 200) {
-            setUser(response.data.name);
+            console.log('yyyy',response.data);
+            setUser(response.data.users);
           }
         }
       };
@@ -34,12 +36,13 @@ const Navbar = () => {
       console.log(error);
     }
 
-    const logOut = () => {
-      localStorage.removeItem("token");
-      setUser("");
-      navigate("/");
-    };
+   
   });
+  const logout = () => {
+    localStorage.removeItem("token");
+    setUser("");
+    navigate("/");
+  };
   return (
     <Box sx={{ flexGrow: 1 }}>
       <AppBar position="static">
@@ -62,7 +65,7 @@ const Navbar = () => {
               {user ? (
                 <span>
                   User:{user}
-                  <Button color="inherit" onClick={logOut}>
+                  <Button color="inherit" onClick={logout}>
                     LogOut
                   </Button>
                 </span>

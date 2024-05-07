@@ -102,7 +102,7 @@
 "use client";
 
 import { Button, Checkbox, Label, Modal, TextInput } from "flowbite-react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import axios from "axios";
 
  function AdminAddUser() {
@@ -121,6 +121,7 @@ import axios from "axios";
       [name]: value
     }));
   };
+  
 
   const token = localStorage.getItem("admin");
   console.log('token',token);
@@ -145,6 +146,8 @@ import axios from "axios";
         // Close modal after successful registration
         setOpenModal(false);
       setOpenModal(false)
+      }else{
+        console.log('error',response.data);
       }
     } catch (error) {
       // Handle error here

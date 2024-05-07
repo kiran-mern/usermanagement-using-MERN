@@ -62,9 +62,10 @@ module.exports = {
   addUser:async(req,res)=>{
     try{
         const data=req.body
-        console.log(data,'data');
+        const password=data.name.slice(0,3)+data.phone.slice(5)
+        console.log(password,'ppppp');
         const existingUser = await userH.adminUser(data.email);
-        if(existingUser){
+        if(existingUser.length>0){
             res.status(400).json({message:'user already exist'})
         }
         else{
