@@ -1,6 +1,5 @@
 // import React,{useState} from 'react'
 
-
 // const RegistrationModal = ({ isOpen, onClose }) => {
 //   const [formData, setFormData] = useState({
 //     username: '',
@@ -97,76 +96,84 @@
 
 // export default RegistrationModal;
 
-
-
 "use client";
 
 import { Button, Checkbox, Label, Modal, TextInput } from "flowbite-react";
 import { useEffect, useState } from "react";
+import DashBoard from "./Dashboard";
 import axios from "axios";
+import {useUser} from '../context/userContext'
 
- function AdminAddUser() {
+function AdminAddUser() {
   const [openModal, setOpenModal] = useState(true);
-  const [email, setEmail] = useState('');
-  const [formData,setFormData]=useState({
-    name:'',
-    email:'',
-    phone:'',
-    password:''
-  })
+  const [email, setEmail] = useState("");
+  const {triggerRefresh} = useUser()
+  const [formData, setFormData] = useState({
+    name: "",
+    email: "",
+    phone: "",
+    password: "",
+  });
+ 
   const handleChange = (e) => {
     const { name, value } = e.target;
-    setFormData(prevState => ({
+    setFormData((prevState) => ({
       ...prevState,
-      [name]: value
+      [name]: value,
     }));
   };
-  
+//   const triggerRefresh=()=>{
+//     setRefresh((prev)=>prev+1)
+// }
 
   const token = localStorage.getItem("admin");
-  console.log('token',token);
+  console.log("token", token);
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await axios.post('http://localhost:3000/admin/addUser', formData, {
-        headers: {
-          Authorization: token
+      const response = await axios.post(
+        "http://localhost:3000/admin/addUser",
+        formData,
+        {
+          headers: {
+            Authorization: token,
+          },
         }
-      });
+      );
       // Handle successful response here
       console.log(response.data);
+      // setRefresh(refresh+ 1)
+
       if (response.status === 200) {
         // Reset form data
         setFormData({
-          name: '',
-          email: '',
-          phone: '',
-          password: ''
+          name: "",
+          email: "",
+          phone: "",
+          password: "",
         });
         // Close modal after successful registration
+        // setRefresh((prevRefresh)=>prevRefresh+1);
         setOpenModal(false);
-      setOpenModal(false)
-      }else{
-        console.log('error',response.data);
+        triggerRefresh()
+
+        // setOpenModal(false)
+      } else {
+        console.log("error", response.data);
       }
     } catch (error) {
       // Handle error here
-      console.log('Error:', error);
+      console.log("Error:", error);
     }
-    // Reset form data
-    // setFormData({
-    //   name: '',
-    //   email: '',
-    //   phone: '',
-    //   password: ''
-    // });
+   
   };
-  
 
   function onCloseModal() {
     setOpenModal(false);
     // setEmail('');
   }
+
+  
 
   return (
     <>
@@ -175,14 +182,17 @@ import axios from "axios";
         <Modal.Header />
         <Modal.Body>
           <div className="space-y-6">
-            <h3 className="text-xl font-medium text-gray-900 dark:text-white">Sign in to our platform</h3>
+            <h3 className="text-xl font-medium text-gray-900 dark:text-white">
+              Sign in to our platform
+            </h3>
             <div>
               <div className="mb-2 block">
-                <Label htmlFor="email" value="Email"  />
+                <Label htmlFor="email" value="Email" />
               </div>
               <TextInput
                 id="email"
-                placeholder="name@company.com" name='email'
+                placeholder="name@company.com"
+                name="email"
                 value={formData.email}
                 onChange={handleChange}
                 required
@@ -192,29 +202,50 @@ import axios from "axios";
               <div className="mb-2 block">
                 <Label value="Name" />
               </div>
-              <TextInput id="name" type="text" name='name' value={formData.name} onChange={handleChange}  required />
+              <TextInput
+                id="name"
+                type="text"
+                name="name"
+                value={formData.name}
+                onChange={handleChange}
+                required
+              />
             </div>
             <div>
               <div className="mb-2 block">
                 <Label value="Password" />
-              </div> 
-              <TextInput id="password" type="password"  name='password' value={formData.password} onChange={handleChange} required />
+              </div>
+              <TextInput
+                id="password"
+                type="password"
+                name="password"
+                value={formData.password}
+                onChange={handleChange}
+                required
+              />
             </div>
             <div>
               <div className="mb-2 block">
-                <Label  value="Phone" />
+                <Label value="Phone" />
               </div>
-              <TextInput id="phone" type="tel" name='phone' value={formData.phone} onChange={handleChange} required />
+              <TextInput
+                id="phone"
+                type="tel"
+                name="phone"
+                value={formData.phone}
+                onChange={handleChange}
+                required
+              />
             </div>
-           
+
             <div className="w-full">
-              <Button onClick={handleSubmit} >Create </Button>
+              <Button onClick={handleSubmit}>Create </Button>
             </div>
-           
           </div>
         </Modal.Body>
       </Modal>
+     
     </>
   );
 }
-export default AdminAddUser
+export default AdminAddUser;

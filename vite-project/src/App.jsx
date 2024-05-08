@@ -2,6 +2,7 @@
 import "./App.css";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Login from "./pages/Login";
+import { UserProvider } from "./context/userContext";
 import RegisterPage from "./pages/Register";
 import Home from './pages/Home'
 import AdminLogin from "./components/AdminLogin";
@@ -9,6 +10,7 @@ import DashBoard from './pages/Dashboard'
 import AddUser from './components/adminAddUser'
 function App() {
   return (
+    <UserProvider>
     <>
       <BrowserRouter>
         <Routes>
@@ -21,6 +23,7 @@ function App() {
         </Routes>
       </BrowserRouter>
     </>
+    </UserProvider>
   );
 }
 

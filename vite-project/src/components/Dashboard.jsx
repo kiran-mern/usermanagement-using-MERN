@@ -6,25 +6,29 @@ import TableContainer from "@mui/material/TableContainer";
 import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
-import axios from "axios";
-import { Button, Modal } from "flowbite-react";
+import Button from "@mui/material/Button";
+import DeleteIcon from "@mui/icons-material/Delete";
+import EditIcon from "@mui/icons-material/Edit";
+import Modal from "@mui/material/Modal";
 import { HiOutlineExclamationCircle } from "react-icons/hi";
-
-// import EditForm from '../components/Register'
+import axios from "axios";
+import { useUser } from "../context/userContext";
+// import AdminAdd from './adminAddUser'
 
 export default function DenseTable() {
-  const [user, setUser] = useState([]);
-  const [openEditModal,setOpenEditModal]=useState(false)
+  const [users, setUsers] = useState([]);
+  const [openEditModal, setOpenEditModal] = useState(false);
   const [openModal, setOpenModal] = useState(false);
   const [deleteUserId, setDeleteUserId] = useState("");
-  const [refresh, setRefresh] = useState(0);
+  const {triggerRefresh} = useUser();
+  // const {refresh}=useUser()
 
-  const[editUser,setEditUser]=useState({
-     name:'',
-     id:'',
-     value:' '
-  })
-
+  const [editUser, setEditUser] = useState({
+    name: "",
+    email: "",
+    phone: "",
+  });
+  
   const token = localStorage.getItem("admin");
 
   const handleDelete = (id) => {
@@ -32,37 +36,17 @@ export default function DenseTable() {
     setDeleteUserId(id);
   };
 
-//   const handleEdit=()=>{
-//     axios.post('http://localhost:3000/admin/editUser',editUser,{
-//         headers:{
-//             Authorization: token,
-//         },
-//     })
-//     .then((response)=>{
-//         console.log(response);
-//         setUser(response.data.users)
-
-//     })
-//   }
-
-const handleEdit = (id) => {
-    // Find the user to edit
-    const userToEdit = user.find((item) => item._id === id);
-  
-    // Assuming you have form fields to edit the user's data
-    // You can set the edited data in the state
+  const handleEdit = (id) => {
+    const userToEdit = users.find((user) => user._id === id);
     setEditUser({
       id: id,
-      name: userToEdit.name, // Assuming you have a field to edit the name
-      email: userToEdit.email, // Assuming you have a field to edit the email
-      phone: userToEdit.phone, // Assuming you have a field to edit the phone
+      name: userToEdit.name,
+      email: userToEdit.email,
+      phone: userToEdit.phone,
     });
-  
-    // Open the modal or form to edit the user's data
     setOpenEditModal(true);
   };
-  
-  // This function will handle the submission of the edited data
+
   const submitEdit = () => {
     axios
       .put(`http://localhost:3000/admin/editUser`, editUser, {
@@ -72,15 +56,14 @@ const handleEdit = (id) => {
       })
       .then((response) => {
         console.log(response);
-        // setUser(response.data.users);
-        setRefresh((prev)=>prev+1)
-        setOpenEditModal(false); // Close the modal after successful edit
+        // setRefresh((prev) => prev + 1);
+        triggerRefresh()
+        setOpenEditModal(false);
       })
       .catch((error) => {
         console.error(error);
       });
   };
-  
 
   const confirmDelete = () => {
     axios
@@ -94,8 +77,9 @@ const handleEdit = (id) => {
       })
       .then((response) => {
         console.log('aaa',response);
-        setRefresh((prev) => prev + 1);
-        setOpenModal(false); // Close the modal after successful delete
+        // setRefresh((prev) => prev + 1);
+        triggerRefresh()
+        setOpenModal(false);
       })
       .catch((error) => {
         console.error(error);
@@ -103,52 +87,57 @@ const handleEdit = (id) => {
   };
 
   useEffect(() => {
-    try {
-      const fetchUser = async () => {
+    const fetchUsers = async () => {
+      try {
         const response = await axios.get("http://localhost:3000/admin/dashboard", {
           headers: {
-            Authorization: `${token}`,
+            Authorization: token,
           },
         });
-        setUser(response.data.users);
-      };
-      fetchUser();
-    } catch (error) {
-      console.log(error);
-    }
-  }, [token, refresh]);
+        setUsers(response.data.users);
+      } catch (error) {
+        console.log(error);
+      }
+    };
+    fetchUsers();
+  }, [token, triggerRefresh]);
 
   return (
     <>
       <TableContainer component={Paper}>
-        <Table sx={{ minWidth: 650 }} size="small" aria-label="a dense table">
+        <Table size="small"  aria-label="a dense table">
           <TableHead>
-            <TableRow>
-              <TableCell>
-               Name
-              </TableCell>
-              <TableCell align="center">Email</TableCell>
-              <TableCell align="center">Phone</TableCell>
-              <TableCell align="center">Action</TableCell>
-              <TableCell align="center">Delete</TableCell>
+            <TableRow >
+              {/* <button>add</button> */}
+              <TableCell align='center'>Name</TableCell>
+              <TableCell  align='center'>Email</TableCell>
+              <TableCell  align='center'> Phone</TableCell>
+              <TableCell  align='center'>Actions</TableCell>
             </TableRow>
           </TableHead>
           <TableBody>
-            {user.map((userData) => (
-              <TableRow 
-                key={userData._id}
-                sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
-              >
-                <TableCell component="th" scope="row">
-                  {userData.name}
-                </TableCell>
-                <TableCell align="center">{userData.email}</TableCell>
-                <TableCell align="center">{userData.phone}</TableCell>
-                <TableCell align="center">
-                  <button onClick={() =>handleEdit(userData._id)}>Edit</button>
-                </TableCell>
-                <TableCell align="right">
-                  <button onClick={() => handleDelete(userData._id)}>Delete</button>
+            {users.map((user) => (
+              <TableRow key={user._id}>
+                <TableCell  align='center'>{user.name}</TableCell>
+                <TableCell  align='center'>{user.email}</TableCell>
+                <TableCell  align='center'>{user.phone}</TableCell>
+                <TableCell  align='center' style={{ alignItems:'center',justifyContent:'space-evenly',display:'flex'}}> 
+                  <Button
+                    variant="contained"
+                    color="primary"
+                    onClick={() => handleEdit(user._id)}
+                    startIcon={<EditIcon />}
+                  >
+                    Edit
+                  </Button>
+                  <Button
+                    variant="contained"
+                    color="secondary"
+                    onClick={() => handleDelete(user._id)}
+                    startIcon={<DeleteIcon />}
+                  >
+                    Delete
+                  </Button>
                 </TableCell>
               </TableRow>
             ))}
@@ -157,67 +146,55 @@ const handleEdit = (id) => {
       </TableContainer>
 
       <Modal
-        show={openModal}
-        size="md"
+        open={openModal}
         onClose={() => setOpenModal(false)}
-        popup
+        aria-labelledby="delete-modal-title"
+        aria-describedby="delete-modal-description"
       >
-        <Modal.Header />
-        <Modal.Body>
-          <div className="text-center">
-            <HiOutlineExclamationCircle className="mx-auto mb-4 h-14 w-14 text-gray-400 dark:text-gray-200" />
-            <h3 className="mb-5 text-lg font-normal text-gray-500 dark:text-gray-400">
-              Are you sure you want to delete this product?
-            </h3>
-            <div className="flex justify-center gap-4">
-              <Button color="failure" onClick={confirmDelete}>
-                {"Yes, I'm sure"}
-              </Button>
-              <Button color="gray" onClick={() => setOpenModal(false)}>
-                No, cancel
-              </Button>
-            </div>
+        <div className="modal-content">
+          <HiOutlineExclamationCircle className="modal-icon" />
+          <h2 id="delete-modal-title">Are you sure you want to delete this user?</h2>
+          <div className="modal-buttons">
+            <Button variant="contained" color="primary" onClick={confirmDelete}>
+              Yes, I'm sure
+            </Button>
+            <Button variant="contained" color="secondary" onClick={() => setOpenModal(false)}>
+              No, cancel
+            </Button>
           </div>
-        </Modal.Body>
+        </div>
       </Modal>
+
       <Modal
-  show={openEditModal}
-  size="md"
-  onClose={() => setOpenEditModal(false)}
-  popup
->
-  <Modal.Header />
-  <Modal.Body>
-    <div className="text-center">
-      {/* Input fields for editing user data */}
-      <input
-        type="text"
-        value={editUser.name}
-        onChange={(e) =>
-          setEditUser({ ...editUser, name: e.target.value })
-        }
-      />
-      <input
-        type="email"
-        value={editUser.email}
-        onChange={(e) =>
-          setEditUser({ ...editUser, email: e.target.value })
-        }
-      />
-      <input
-        type="tel"
-        value={editUser.phone}
-        onChange={(e) =>
-          setEditUser({ ...editUser, phone: e.target.value })
-        }
-      />
-
-      {/* Button to submit the edited data */}
-      <button onClick={submitEdit}>Save</button>
-    </div>
-  </Modal.Body>
-</Modal>
-
+        open={openEditModal}
+        onClose={() => setOpenEditModal(false)}
+        aria-labelledby="edit-modal-title"
+        aria-describedby="edit-modal-description"
+      >
+        <div className="modal-content">
+          <input
+            type="text"
+            value={editUser.name}
+            onChange={(e) => setEditUser({ ...editUser, name: e.target.value })}
+            placeholder="Name"
+          />
+          <input
+            type="email"
+            value={editUser.email}
+            onChange={(e) => setEditUser({ ...editUser, email: e.target.value })}
+            placeholder="Email"
+          />
+          <input
+            type="tel"
+            value={editUser.phone}
+            onChange={(e) => setEditUser({ ...editUser, phone: e.target.value })}
+            placeholder="Phone"
+          />
+          <Button variant="contained" color="primary" onClick={submitEdit}>
+            Save
+          </Button>
+        </div>
+      </Modal>
     </>
   );
 }
