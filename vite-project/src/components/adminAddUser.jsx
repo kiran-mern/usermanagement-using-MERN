@@ -100,12 +100,11 @@
 
 import { Button, Checkbox, Label, Modal, TextInput } from "flowbite-react";
 import { useEffect, useState } from "react";
-import DashBoard from "./Dashboard";
 import axios from "axios";
 import {useUser} from '../context/userContext'
 
-function AdminAddUser() {
-  const [openModal, setOpenModal] = useState(true);
+function AdminAddUser({openModal,setOpenModal}) {
+  // const [openModal, setOpenModal] = useState(true);
   const [email, setEmail] = useState("");
   const {triggerRefresh} = useUser()
   const [formData, setFormData] = useState({
@@ -122,9 +121,7 @@ function AdminAddUser() {
       [name]: value,
     }));
   };
-//   const triggerRefresh=()=>{
-//     setRefresh((prev)=>prev+1)
-// }
+
 
   const token = localStorage.getItem("admin");
   console.log("token", token);
@@ -142,7 +139,6 @@ function AdminAddUser() {
       );
       // Handle successful response here
       console.log(response.data);
-      // setRefresh(refresh+ 1)
 
       if (response.status === 200) {
         // Reset form data
@@ -177,7 +173,7 @@ function AdminAddUser() {
 
   return (
     <>
-      <Button onClick={() => setOpenModal(true)}>Toggle modal</Button>
+      {/* <Button onClick={() => setOpenModal(true)}>Toggle modal</Button> */}
       <Modal show={openModal} size="md" onClose={onCloseModal} popup>
         <Modal.Header />
         <Modal.Body>
@@ -221,7 +217,8 @@ function AdminAddUser() {
                 name="password"
                 value={formData.password}
                 onChange={handleChange}
-                required
+                readOnly
+                placeholder="Auto-genarate"
               />
             </div>
             <div>

@@ -20,7 +20,7 @@ module.exports = {
       if (Email == email) {
         if (Password == password) {
           const Token = token(Email);
-          // console.log(Token,'www');
+          console.log(Token,'www');
           res.status(200).json({ message: "admin Loggedin", token: Token });
         } else {
           res.status(400).json({ message: "Invalid Password" });
@@ -70,7 +70,7 @@ module.exports = {
             res.status(400).json({message:'user already exist'})
         }
         else{
-            const user=await adminH.addUserByAdmin(data);
+            const user=await adminH.addUserByAdmin(data,password);
             console.log('admin_user',user);
             res.status(200).json({message:'user added by admin'})
         }

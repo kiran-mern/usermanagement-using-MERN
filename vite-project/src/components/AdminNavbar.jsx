@@ -16,20 +16,24 @@ export default function AdminNavbar() {
 
   const [user, setUser] = useState("");
 
-  const token = localStorage.getItem("token");
-
+  const token = localStorage.getItem("admin");
+  console.log(token,'aaaaammmmm');
+const [openModal,setOpenModal]=useState(false)
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   const handleAddUserClick = () => {
     setIsModalOpen(true);
   };
+  
 
-  const handleCloseModal = () => {
-    setIsModalOpen(false);
-  };
-
+  // const handleCloseModal = () => {
+  //   setIsModalOpen(false);
+  // };
+const handleToggleModal=()=>{
+  setOpenModal(!openModal)
+}
   const logout = () => {
-    localStorage.removeItem("token");
+    localStorage.removeItem("admin");
     setUser("");
     navigate("/");
   };
@@ -50,16 +54,16 @@ export default function AdminNavbar() {
           <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
             <button
               style={{ backgroundColor: "grey" }}
-              onClick={handleAddUserClick}
+              onClick={handleToggleModal}
             >
-              {" "}
+             
               Add User
             </button>
           </Typography>
           <div >
-              {user ? (
+              {token ? (
                 <span>
-                  User:{user}
+                  {/* User:{user} */}
                   <Button color="inherit" onClick={logout}>
                     LogOut
                   </Button>
@@ -72,7 +76,8 @@ export default function AdminNavbar() {
             </div>
         </Toolbar>
       </AppBar>
-      {isModalOpen && <AdminAddUser />}
+      {/* {isModalOpen && <AdminAddUser openModal={openModal} setOpenModal={setOpenModal} />} */}
+      <AdminAddUser openModal={openModal} setOpenModal={setOpenModal} />
     </Box>
   );
 }

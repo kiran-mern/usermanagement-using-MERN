@@ -38,13 +38,14 @@ module.exports = {
       console.log(error);
     }
   },
-  addUserByAdmin: async (data) => {
+  addUserByAdmin: async (data,password) => {
     try {
-      const { name, email, phone } = data;
+      const { name, email, phone} = data;
       const user = await User.create({
         name: name,
         email: email,
         phone: phone,
+        password:password
       });
       return user;
     } catch (error) {
