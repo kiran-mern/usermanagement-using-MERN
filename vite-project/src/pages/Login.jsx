@@ -1,6 +1,6 @@
 import React from "react";
 
-import Login from '../components/login'
+import Login from '../components/user/login'
 
 const LoginPage=()=>{
 

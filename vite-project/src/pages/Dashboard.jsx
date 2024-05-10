@@ -1,7 +1,7 @@
 import React from "react";
-import Navbar  from "../components/AdminNavbar";
+import Navbar  from "../components/admin/AdminNavbar";
 
-import Dashboard from '../components/Dashboard'
+import Dashboard from '../components/admin/Dashboard'
 
 const DashBoard=()=>{
 

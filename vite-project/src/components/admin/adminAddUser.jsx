@@ -101,7 +101,7 @@
 import { Button, Checkbox, Label, Modal, TextInput } from "flowbite-react";
 import { useEffect, useState } from "react";
 import axios from "axios";
-import {useUser} from '../context/userContext'
+import {useUser} from '../../context/userContext'
 
 function AdminAddUser({openModal,setOpenModal}) {
   // const [openModal, setOpenModal] = useState(true);
@@ -116,10 +116,26 @@ function AdminAddUser({openModal,setOpenModal}) {
  
   const handleChange = (e) => {
     const { name, value } = e.target;
+    const trimmedValue = value.trim();
     setFormData((prevState) => ({
       ...prevState,
-      [name]: value,
+      [name]: trimmedValue,
     }));
+  };
+  const validateForm = () => {
+    const { name, email, phone } = formData;
+    // Check if any field is empty
+    if (!name || !email || !phone) {
+      alert("Please fill in all fields.");
+      return false;
+    }
+    // Validate email format
+    const emailRegex = /^\S+@\S+\.\S+$/;
+    if (!emailRegex.test(email)) {
+      alert("Please enter a valid email address.");
+      return false;
+    }
+    return true;
   };
 
 
@@ -127,6 +143,7 @@ function AdminAddUser({openModal,setOpenModal}) {
   console.log("token", token);
   const handleSubmit = async (e) => {
     e.preventDefault();
+    if(!validateForm()) return;
     try {
       const response = await axios.post(
         "http://localhost:3000/admin/addUser",

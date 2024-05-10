@@ -5,9 +5,9 @@ import Login from "./pages/Login";
 import { UserProvider } from "./context/userContext";
 import RegisterPage from "./pages/Register";
 import Home from './pages/Home'
-import AdminLogin from "./components/AdminLogin";
+import AdminLogin from "./components/admin/AdminLogin";
 import DashBoard from './pages/Dashboard'
-import AddUser from './components/adminAddUser'
+import AddUser from './components/admin/adminAddUser'
 function App() {
   return (
     <UserProvider>

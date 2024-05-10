@@ -12,7 +12,7 @@ import EditIcon from "@mui/icons-material/Edit";
 import Modal from "@mui/material/Modal";
 import { HiOutlineExclamationCircle } from "react-icons/hi";
 import axios from "axios";
-import { useUser } from "../context/userContext";
+import { useUser } from "../../context/userContext";
 // import AdminAdd from './adminAddUser'
 
 export default function DenseTable() {
