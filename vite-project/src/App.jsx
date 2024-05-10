@@ -8,6 +8,7 @@ import Home from './pages/Home'
 import AdminLogin from "./components/admin/AdminLogin";
 import DashBoard from './pages/Dashboard'
 import AddUser from './components/admin/adminAddUser'
+import ErrorPage from './components/common/error'
 function App() {
   return (
     <UserProvider>
@@ -20,6 +21,7 @@ function App() {
           <Route path='/admin'  element ={<AdminLogin/>}/>
           <Route path='/admin/dashboard' element={<DashBoard/>}/>
           <Route path='/admin/addUser' element ={<AddUser/>}/>
+          <Route path='*' element={<ErrorPage/>}/>
         </Routes>
       </BrowserRouter>
     </>
