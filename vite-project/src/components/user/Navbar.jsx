@@ -13,6 +13,7 @@ const Navbar = () => {
   const navigate = useNavigate();
   const [user, setUser] = useState("");
   console.log(user, "anyone");
+  let token=localStorage.getItem('token')
 
   useEffect(() => {
     try {
@@ -37,10 +38,25 @@ const Navbar = () => {
     }
   });
   const logout = () => {
-    localStorage.removeItem("token");
+    localStorage.clear();
     setUser("");
-    navigate("/");
+    navigate("/login");
   };
+
+  useEffect(() => {
+    console.log(token,'tokentoken')
+    console.log(window.location.pathname,'path')
+    const handleNavigate = () => {
+      if (token !==null && !!JSON.stringify(token)) {
+        navigate('/');
+      }
+    };
+    return ()=>{
+      console.log(1)
+      handleNavigate();
+  }
+  }, [navigate, window.location.pathname]);
+
   return (
     <Box sx={{ flexGrow: 1 }}>
       <AppBar position="static">

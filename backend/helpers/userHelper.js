@@ -29,7 +29,7 @@ module.exports={
         try{
     
             const user= await User.findOne({data})
-            console.log(user,'two')
+            // console.log(user,'two')
             return user;
         }catch(error){
             console.log(error);

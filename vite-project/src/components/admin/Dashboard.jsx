@@ -126,7 +126,7 @@ export default function DenseTable() {
                     variant="contained"
                     color="primary"
                     onClick={() => handleEdit(user._id)}
-                    startIcon={<EditIcon />}
+                    // startIcon={<EditIcon />}
                   >
                     Edit
                   </Button>
@@ -134,7 +134,7 @@ export default function DenseTable() {
                     variant="contained"
                     color="secondary"
                     onClick={() => handleDelete(user._id)}
-                    startIcon={<DeleteIcon />}
+                    // startIcon={<DeleteIcon />}
                   >
                     Delete
                   </Button>

@@ -27,7 +27,7 @@ module.exports = {
     try{
       const{email,password}=req.body
       const user=await userH.findOne(email)
-      console.log('one',user);
+      // console.log('one',user);
 
       if(!user){
         res.status(400).json({messsage:'invalid user'})
@@ -64,5 +64,43 @@ module.exports = {
       }
     })
 
+  },
+    
+  // validate:async(req,res)=>{
+  //   console.log('ooooooooo');
+    
+  //   const { name, email, password, phone } = req.body;
+  //   // console.log(req.body,'00000');
+  //   // const Token = token(email);
+  //   // console.log(email,'oioio');
+  //   //     res.status(200).json({ message: "existing", token:Token});
+
+  //   if(email){
+
+  //     const Token = token(email);
+  //     console.log(email,'oioio');
+  //         res.status(200).json({ message: "existing", token:Token});
+  //   }
+
+
+
+  // }
+  validate:async(req,res)=>{
+    const token=req.headers.authorization
+    console.log('kk',token);
+
+    jwt.verify(token,process.env.secret_key, async(err,user)=>{
+      if(err) return res.sendStatus(403)
+
+      req.user=user
+      console.log('ab',req.user);
+
+      if(req.user){
+        // const user=await userH.findThatUser(req.user.email)      console.log('ab',req.user);
+        console.log('ab');
+
+        res.status(200).json({message:'done',Token:token})
+      }
+    })
   }
 };

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState,useEffect } from "react";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import axios from "axios";
@@ -9,6 +9,28 @@ const AdminLogin = () => {
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
   const navigate = useNavigate();
+  async function isValid(){
+    const token=localStorage.getItem('token')
+    try{
+      
+      const response=await axios.get('http://localhost:3000/valid',{
+        headers: {
+          Authorization: `${token}`,
+        }
+        
+      })
+      if(response.status===200 && response.data.message=="done"){
+        navigate('/admin/dashboard')
+      }
+    }catch(error){
+      console.log(error);
+
+    }
+  }
+
+useEffect(()=>{
+  isValid()
+},[])
 
   const handleClick = async (e) => {
     e.preventDefault();

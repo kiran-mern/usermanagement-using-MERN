@@ -1,6 +1,10 @@
-import React from 'react';
+import React, { useEffect } from 'react';
+import { useNavigate } from "react-router-dom";
 
 const Home = () => {
+  let token=localStorage.getItem('token')
+
+ const navigate =useNavigate()
   const backgroundStyle = {
     backgroundImage: "linear-gradient(to bottom, rgba(0,0,0,0.5), rgba(0,0,0,0.5)), url('../data/zbHhQV.jpg')",
     backgroundSize: 'cover',
@@ -15,6 +19,43 @@ const Home = () => {
     textAlign: 'center',
     padding: '0 20px',
   };
+
+  async function isValid(){
+     token=localStorage.getItem('token')
+    try{
+      
+      const response=await axios.get('http://localhost:3000/valid',{
+        headers: {
+          Authorization: `${token}`,
+        }
+        
+      })
+      if(response.status===200 && response.data.message=="done"){
+        navigate('/')
+      }
+    }catch(error){
+      console.log(error);
+
+    }
+  }
+
+useEffect(()=>{
+  isValid()
+},[])
+
+// useEffect(() => {
+//   console.log(token,'tokentoken')
+//   console.log(window.location.pathname,'path')
+//   const handleNavigate = () => {
+//     if (token !==null && !!JSON.stringify(token)) {
+//       navigate('/');
+//     }
+//   };
+//   return ()=>{
+//     console.log(1)
+//     handleNavigate();
+// }
+// }, [navigate, window.location.pathname]);
 
   return (
     <div className="home" style={backgroundStyle}>

@@ -6,7 +6,11 @@ const AdminSchema=new mongoose.Schema({
     },
     password:{
         type:String
-    }
+    },
+    // isAdmin:{
+    //     type:String,
+    //     default:'user'
+    // }
 })
 const Admin=mongoose.model('admin',AdminSchema)
 module.exports=Admin

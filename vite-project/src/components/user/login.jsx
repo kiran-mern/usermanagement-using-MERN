@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import axios,{AxiosError} from 'axios';
 import { Link, useNavigate } from "react-router-dom";
 import { ToastContainer, toast } from "react-toastify";
@@ -10,6 +10,31 @@ const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
+
+
+
+  async function isValid(){
+    const token=localStorage.getItem('token')
+    try{
+      
+      const response=await axios.get('http://localhost:3000/valid',{
+        headers: {
+          Authorization: `${token}`,
+        }
+        
+      })
+      if(response.status===200 && response.data.message=="done"){
+        navigate('/')
+      }
+    }catch(error){
+      console.log(error);
+
+    }
+  }
+
+useEffect(()=>{
+  isValid()
+},[])
 
   const handleClick = async (e) => {
     e.preventDefault();
