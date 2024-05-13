@@ -82,5 +82,20 @@ module.exports = {
         // res.status(400).json({message:'internal error'})
 
     }
+  },
+  getUsers:async(req,res)=>{
+    console.log(req.query.search)
+    try{
+      if(req.query.search){
+        const result=await adminH.userSearch(req.query.search)
+        console.log(result,'lol');
+        return res.status(200).json({data:result})
+
+      }
+
+    }catch(error){
+      res.status(200).json({error:'Internal error'})
+
+    }
   }
 };

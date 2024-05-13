@@ -9,6 +9,7 @@ export const useUser = () => useContext(UserContext);
 export const UserProvider = ({ children }) => {
   const [user, setUser] = useState(null);
   const [refresh,setRefresh]=useState(0)
+  const [searchInput,setSearchInput]=useState(0)
 
 
 
@@ -19,9 +20,12 @@ export const UserProvider = ({ children }) => {
   const triggerRefresh = () => {
     setRefresh((prevRefresh) => prevRefresh + 1);
   };
+  const updateSearchInput = async(value) => {
+    setSearchInput(value);
+  };
 
   return (
-    <UserContext.Provider value={{ user, refresh,setRefresh, logoutUser,triggerRefresh }}>
+    <UserContext.Provider value={{ user, refresh,setRefresh,triggerRefresh,searchInput,setSearchInput,updateSearchInput }}>
       {children}
     </UserContext.Provider>
   );

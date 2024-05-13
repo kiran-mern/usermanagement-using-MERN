@@ -52,4 +52,18 @@ module.exports = {
       console.log(error);
     }
   },
+  userSearch:async(data)=>{
+    try{
+      const users=await User.find({
+        $or:[
+          {name:{$regex:data, $options:'i'}},
+          {email:{$regex:data, $options:'i'}}
+        ]
+      });
+      return users;
+    }catch(error){
+      console.log(error);
+    }
+  }
+  
 };

@@ -8,14 +8,19 @@ import IconButton from "@mui/material/IconButton";
 // import MenuIcon from '@mui/icons-material/Menu';
 import AdminAddUser from "./adminAddUser";
 import { useNavigate } from "react-router-dom";
+import axios from "axios";
+import { useUser } from "../../context/userContext";
+
 
 
 
 export default function AdminNavbar() {
   const navigate = useNavigate();
+  const {triggerRefresh,updateSearchInput,searchInput,setSearchInput} = useUser();
+
 
   const [user, setUser] = useState("");
-  const [searchInput,setSearchInput]=useState('')
+  // const [searchInput,setSearchInput]=useState('')
 
   const token = localStorage.getItem("admin");
   console.log(token,'aaaaammmmm');
@@ -25,14 +30,11 @@ const [openModal,setOpenModal]=useState(false)
   const handleAddUserClick = () => {
     setIsModalOpen(true);
   };
-  const searchUser=async()=>{
-
-  }
+  const handleSearchInputChange = (e) => {
+    // Call updateSearchInput to update the search input value
+    updateSearchInput(e.target.value);
+  };
   
-
-  // const handleCloseModal = () => {
-  //   setIsModalOpen(false);
-  // };
 const handleToggleModal=()=>{
   setOpenModal(!openModal)
 }
@@ -41,6 +43,7 @@ const handleToggleModal=()=>{
     setUser("");
     navigate("/");
   };
+ 
 
   return (
     <Box sx={{ flexGrow: 1 }}>
@@ -68,12 +71,13 @@ const handleToggleModal=()=>{
           <input
             type="text"
             placeholder="Search..."
-            style={{ marginRight: '10px', padding: '5px' }}
+            style={{ marginRight: '10px', padding: '5px' ,color:'black'}}
             value={searchInput}
-            onChange={(e)=>{
-              setSearchInput(e.target.value)
-              searchUser(e.target.value)
-            }}
+            onChange={handleSearchInputChange}
+            // onChange={(e)=>{
+            //   setSearchInput(e.target.value)
+            //   searchInput(e.target.value)
+            // }}
             // Add any necessary event handlers or state here
           />
           {/* Add User Button */}

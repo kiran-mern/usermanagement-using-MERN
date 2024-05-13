@@ -20,8 +20,8 @@ export default function DenseTable() {
   const [openEditModal, setOpenEditModal] = useState(false);
   const [openModal, setOpenModal] = useState(false);
   const [deleteUserId, setDeleteUserId] = useState("");
-  const {triggerRefresh} = useUser();
-  // const {refresh}=useUser()
+  const {triggerRefresh,updateSearchInput,searchInput} = useUser();
+
 
   const [editUser, setEditUser] = useState({
     name: "",
@@ -93,6 +93,9 @@ export default function DenseTable() {
           headers: {
             Authorization: token,
           },
+          params:{
+            search:searchInput
+          }
         });
         setUsers(response.data.users);
       } catch (error) {
@@ -100,10 +103,34 @@ export default function DenseTable() {
       }
     };
     fetchUsers();
-  }, [token, triggerRefresh]);
+  }, [token, triggerRefresh,searchInput]);
+
+  
+  useEffect(()=>{
+    const fetchData = async () => {
+      try {
+        const response = await axios.get(`http://localhost:3000/admin/search${searchInput ? `?search=${searchInput}` : ''}`, {
+          headers: {
+            Authorization: token
+          }
+        });
+        console.log(response.data,'sssss');
+        // Assuming setUser is a function to update state
+        setUsers(response.data.data);
+      } catch (error) {
+        console.error('Error fetching data:', error);
+      }
+    };
+  
+    fetchData(); // Call the function immediately
+  
+    // Specify dependencies in the array below, if needed
+  }, [searchInput, token]); 
+
 
   return (
     <>
+    
       <TableContainer component={Paper}>
         <Table size="small"  aria-label="a dense table">
           <TableHead>
