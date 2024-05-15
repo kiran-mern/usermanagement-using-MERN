@@ -22,7 +22,7 @@ export default function AdminNavbar() {
   const [user, setUser] = useState("");
   // const [searchInput,setSearchInput]=useState('')
 
-  const token = localStorage.getItem("admin");
+  const token = localStorage.getItem("token");
   console.log(token,'aaaaammmmm');
 const [openModal,setOpenModal]=useState(false)
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -39,7 +39,7 @@ const handleToggleModal=()=>{
   setOpenModal(!openModal)
 }
   const logout = () => {
-    localStorage.removeItem("admin");
+    localStorage.removeItem("token");
     setUser("");
     navigate("/");
   };

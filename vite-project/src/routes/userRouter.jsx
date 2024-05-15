@@ -15,8 +15,8 @@ function userRouter() {
     <>
       {/* <BrowserRouter> */}
         <Routes>
-          <Route path='/' element={<Home />} />
-          <Route path="/login" element={<Login />} />
+          <Route path="/" element={<Login />} />
+          <Route path='/home' element={<Home />} />
           <Route path="/register" element={<RegisterPage />} />
           <Route path='*' element={<ErrorPage/>}/>
         </Routes>

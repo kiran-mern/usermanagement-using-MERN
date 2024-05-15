@@ -27,7 +27,7 @@ module.exports = {
     try{
       const{email,password}=req.body
       const user=await userH.findOne(email)
-      // console.log('one',user);
+      console.log('one',user);
 
       if(!user){
         res.status(400).json({messsage:'invalid user'})
@@ -35,8 +35,8 @@ module.exports = {
         
         const match=await bcrypt.compare(password,user.password)
         if(match){
-          const Token=token(email)
-          // console.log(Token,'an');
+          const Token=token(email,user.role)
+          console.log(Token,'an');
           res.status(200).json({message:'user loggedIn',token:Token})
         }else{
           res.status(400).json({message:'Invalid Password'})
@@ -56,35 +56,15 @@ module.exports = {
       if(err) return res.sendStatus(403)
 
       req.user=user
-      console.log(req.user);
+      console.log(req.user,'look');
 
-      if(req.user){
+      if(req.user.mail && req.user.role==='user'){
         const user=await userH.findThatUser(req.user.email)
         res.status(200).json({message:'done',users:user.name})
       }
     })
 
   },
-    
-  // validate:async(req,res)=>{
-  //   console.log('ooooooooo');
-    
-  //   const { name, email, password, phone } = req.body;
-  //   // console.log(req.body,'00000');
-  //   // const Token = token(email);
-  //   // console.log(email,'oioio');
-  //   //     res.status(200).json({ message: "existing", token:Token});
-
-  //   if(email){
-
-  //     const Token = token(email);
-  //     console.log(email,'oioio');
-  //         res.status(200).json({ message: "existing", token:Token});
-  //   }
-
-
-
-  // }
   validate:async(req,res)=>{
     const token=req.headers.authorization
     console.log('kk',token);
@@ -95,7 +75,7 @@ module.exports = {
       req.user=user
       console.log('ab',req.user);
 
-      if(req.user){
+      if(req.user.mail && req.user.role==='user'){
         // const user=await userH.findThatUser(req.user.email)      console.log('ab',req.user);
         console.log('ab');
 

@@ -1,5 +1,7 @@
 import React, { useEffect } from 'react';
 import { useNavigate } from "react-router-dom";
+import axios,{AxiosError} from 'axios';
+
 
 const Home = () => {
   let token=localStorage.getItem('token')
@@ -31,7 +33,7 @@ const Home = () => {
         
       })
       if(response.status===200 && response.data.message=="done"){
-        navigate('/')
+        navigate('/home')
       }
     }catch(error){
       console.log(error);
@@ -41,6 +43,7 @@ const Home = () => {
 
 useEffect(()=>{
   isValid()
+    // navigate('/')
 },[])
 
 // useEffect(() => {

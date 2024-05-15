@@ -29,7 +29,7 @@ export default function DenseTable() {
     phone: "",
   });
   
-  const token = localStorage.getItem("admin");
+  const token = localStorage.getItem("token");
 
   const handleDelete = (id) => {
     setOpenModal(true);

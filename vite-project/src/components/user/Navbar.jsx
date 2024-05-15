@@ -40,22 +40,22 @@ const Navbar = () => {
   const logout = () => {
     localStorage.clear();
     setUser("");
-    navigate("/login");
+    navigate("/");
   };
 
-  useEffect(() => {
-    console.log(token,'tokentoken')
-    console.log(window.location.pathname,'path')
-    const handleNavigate = () => {
-      if (token !==null && !!JSON.stringify(token)) {
-        navigate('/');
-      }
-    };
-    return ()=>{
-      console.log(1)
-      handleNavigate();
-  }
-  }, [navigate, window.location.pathname]);
+  // useEffect(() => {
+  //   console.log(token,'tokentoken')
+  //   console.log(window.location.pathname,'path')
+  //   const handleNavigate = () => {
+  //     if (token !==null && !!JSON.stringify(token)) {
+  //       navigate('/home');
+  //     }
+  //   };
+  //   return ()=>{
+  //     console.log(1)
+  //     handleNavigate();
+  // }
+  // }, [navigate, window.location.pathname]);
 
   return (
     <Box sx={{ flexGrow: 1 }}>
@@ -84,7 +84,7 @@ const Navbar = () => {
                   </Button>
                 </span>
               ) : (
-                <Button color="inherit" onClick={() => navigate("/login")}>
+                <Button color="inherit" onClick={() => navigate("/")}>
                   Login
                 </Button>
               )}

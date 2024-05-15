@@ -139,7 +139,7 @@ function AdminAddUser({openModal,setOpenModal}) {
   };
 
 
-  const token = localStorage.getItem("admin");
+  const token = localStorage.getItem("token");
   console.log("token", token);
   const handleSubmit = async (e) => {
     e.preventDefault();

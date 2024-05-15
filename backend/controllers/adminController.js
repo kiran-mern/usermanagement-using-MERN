@@ -9,7 +9,7 @@ module.exports = {
     const { email, password } = req.body;
 
     const adminData = await Admin.findOne({ email });
-    // console.log(adminData);
+    console.log(adminData);
 
     if (!adminData) {
       res.status(400).json({ message: "no admin" });
@@ -19,8 +19,8 @@ module.exports = {
 
       if (Email == email) {
         if (Password == password) {
-          const Token = token(Email);
-          // console.log(Token,'www');
+          const Token = token(Email,adminData.role);
+          console.log(Token,'www');
           res.status(200).json({ message: "admin Loggedin", token: Token });
         } else {
           res.status(400).json({ message: "Invalid Password" });
@@ -84,11 +84,10 @@ module.exports = {
     }
   },
   getUsers:async(req,res)=>{
-    console.log(req.query.search)
-    try{
+     try{
       if(req.query.search){
         const result=await adminH.userSearch(req.query.search)
-        console.log(result,'lol');
+        // console.log(result,'lol');
         return res.status(200).json({data:result})
 
       }

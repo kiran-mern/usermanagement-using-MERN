@@ -9,7 +9,7 @@ export const useUser = () => useContext(UserContext);
 export const UserProvider = ({ children }) => {
   const [user, setUser] = useState(null);
   const [refresh,setRefresh]=useState(0)
-  const [searchInput,setSearchInput]=useState(0)
+  const [searchInput,setSearchInput]=useState(null)
 
 
 
