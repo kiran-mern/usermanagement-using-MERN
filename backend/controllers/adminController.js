@@ -9,7 +9,7 @@ module.exports = {
     const { email, password } = req.body;
 
     const adminData = await Admin.findOne({ email });
-    console.log(adminData);
+    console.log(adminData,'datatatatat');
 
     if (!adminData) {
       res.status(400).json({ message: "no admin" });
@@ -19,7 +19,7 @@ module.exports = {
 
       if (Email == email) {
         if (Password == password) {
-          const Token = token(Email,adminData.role);
+          const Token = token(Email,'admin');
           console.log(Token,'www');
           res.status(200).json({ message: "admin Loggedin",role:'admin', token: Token });
         } else {
@@ -31,6 +31,7 @@ module.exports = {
     }
   },
   dashboard: async (req, res) => {
+    console.log('seerr');
     const user = await userH.findUser();
     if (user) {
       res.status(200).json({ message: "user data fetched", users: user });

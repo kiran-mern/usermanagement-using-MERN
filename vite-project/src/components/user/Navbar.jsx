@@ -13,14 +13,16 @@ const Navbar = () => {
   const navigate = useNavigate();
   const [user, setUser] = useState("");
   console.log(user, "anyone");
-  let token=localStorage.getItem('token')
+  let token= localStorage.getItem("token");
+  console.log(token,'cultcult');
+
 
   useEffect(() => {
     try {
       const fetchData = async () => {
-        const token = localStorage.getItem("token");
+        // const token = localStorage.getItem("token");
         console.log(token);
-        if (token) {
+        if (token!=null) {
           const response = await axios.get("http://localhost:3000/home", {
             headers: {
               Authorization: `${token}`,
@@ -35,6 +37,7 @@ const Navbar = () => {
       fetchData();
     } catch (error) {
       console.log(error);
+      navigate('/')
     }
   });
   const logout = () => {

@@ -8,29 +8,29 @@ const Login = ({head}) => {
 
   const navigate=useNavigate()
 
-  async function isValid(){
-    token=localStorage.getItem('token')
-   try{
+//   async function isValid(){
+//     token=localStorage.getItem('token')
+//    try{
      
-     const response=await axios.get('http://localhost:3000/valid',{
-       headers: {
-         Authorization: `${token}`,
-       }
+//      const response=await axios.get('http://localhost:3000/valid',{
+//        headers: {
+//          Authorization: `${token}`,
+//        }
        
-     })
-     if(response.status===200 && response.data.message=="done"){
-       navigate('/home')
-     }
-   }catch(error){
-     console.log(error);
+//      })
+//      if(response.status===200 && response.data.message=="done"){
+//        navigate('/home')
+//      }
+//    }catch(error){
+//      console.log(error);
 
-   }
- }
+//    }
+//  }
 
-useEffect(()=>{
- isValid()
-   // navigate('/')
-},[])
+// useEffect(()=>{
+//  isValid()
+//    // navigate('/')
+// },[])
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");

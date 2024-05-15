@@ -11,13 +11,12 @@ function authenticateToken(req, res, next) {
       if (err) 
       return res.sendStatus(403);
   
-    req.user = user;
-
-    if(req.user.email && req.user.role==='admin'){
-        console.log('ab',req.user);
-
-     next();
-  }
+      req.user = user;
+      if(req.user.email && req.user.role==='user'){
+                console.log('ab',req.user);
+      
+             next();
+          }
     });
   }
 

@@ -22,44 +22,31 @@ const Home = () => {
     padding: '0 20px',
   };
 
-//   async function isValid(){
-//      token=localStorage.getItem('token')
-//     try{
-      
-//       const response=await axios.get('http://localhost:3000/valid',{
-//         headers: {
-//           Authorization: `${token}`,
-//         }
-        
-//       })
-//       if(response.status===200 && response.data.message=="done"){
-//         navigate('/home')
-//       }
-//     }catch(error){
-//       console.log(error);
-//       navigate('/')
+  async function isValid(){
+     if(token){
 
-//     }
-//   }
+       try{
+         
+         const response=await axios.get('http://localhost:3000/valid',{
+           headers: {
+             Authorization: `${token}`,
+           }
+           
+         })
+       }catch(error){
+         console.log(error);
+         navigate('/')
+   
+       }
+     }
+  }
 
-// useEffect(()=>{
-//   isValid()
-//     // navigate('/')
-// },[])
+useEffect(()=>{
+  console.log('count');
+  isValid()
+    // navigate('/')
+},[])
 
-// useEffect(() => {
-//   console.log(token,'tokentoken')
-//   console.log(window.location.pathname,'path')
-//   const handleNavigate = () => {
-//     if (token !==null && !!JSON.stringify(token)) {
-//       navigate('/');
-//     }
-//   };
-//   return ()=>{
-//     console.log(1)
-//     handleNavigate();
-// }
-// }, [navigate, window.location.pathname]);
 
   return (
     <div className="home" style={backgroundStyle}>

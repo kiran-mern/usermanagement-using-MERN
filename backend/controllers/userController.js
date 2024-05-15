@@ -57,30 +57,21 @@ module.exports = {
 
       req.user=user
       console.log(req.user,'look');
+      let email=req.user.email
 
-      if(req.user.mail && req.user.role==='user'){
-        const user=await userH.findThatUser(req.user.email)
+      if(req.user.email && req.user.role==='user'){
+        const user=await userH.findThatUser(email)
+        // console.log(user,'kaanuah');
         res.status(200).json({message:'done',users:user.name})
       }
     })
 
   },
   validate:async(req,res)=>{
-    const token=req.headers.authorization
-    console.log('kk',token);
+ 
 
-    jwt.verify(token,process.env.secret_key, async(err,user)=>{
-      if(err) return res.sendStatus(403)
-
-      req.user=user
-      console.log('ab',req.user);
-
-      if(req.user.mail && req.user.role==='user'){
-        // const user=await userH.findThatUser(req.user.email)      console.log('ab',req.user);
-        console.log('ab');
-
-        res.status(200).json({message:'done',Token:token})
-      }
-    })
-  }
+        res.status(200).json({message:'done'})
+      
+    }
+  
 };

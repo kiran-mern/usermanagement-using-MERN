@@ -28,8 +28,8 @@ module.exports={
     findThatUser:async(data)=>{
         try{
     
-            const user= await User.findOne({data})
-            // console.log(user,'two')
+            const user= await User.findOne({email:data})
+            console.log(user,'two')
             return user;
         }catch(error){
             console.log(error);
