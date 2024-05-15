@@ -157,7 +157,7 @@ import Login from '../common/Login'
 
 const AdminLogin = () => {
   return (
-    <Login  head={"Admin"} redirectPath={'/admin/dashboard'}/>
+    <Login  head={"admin"} />
   )
 }
 

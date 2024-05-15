@@ -4,9 +4,33 @@ import { Link, useNavigate } from "react-router-dom";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
-const Login = ({head,redirectPath}) => {
+const Login = ({head}) => {
 
   const navigate=useNavigate()
+
+  async function isValid(){
+    token=localStorage.getItem('token')
+   try{
+     
+     const response=await axios.get('http://localhost:3000/valid',{
+       headers: {
+         Authorization: `${token}`,
+       }
+       
+     })
+     if(response.status===200 && response.data.message=="done"){
+       navigate('/home')
+     }
+   }catch(error){
+     console.log(error);
+
+   }
+ }
+
+useEffect(()=>{
+ isValid()
+   // navigate('/')
+},[])
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
@@ -37,9 +61,9 @@ const Login = ({head,redirectPath}) => {
 //   isValid()
 // },[])
 
-const handleUserLogin = async () => {
+const handleLogin = async () => {
     try {
-      const response = await axios.post("http://localhost:3000/login", {
+      const response = await axios.post(`http://localhost:3000/${head==='admin'? 'admin' : 'user'}/login`, {
         email,
         password,
       });
@@ -49,24 +73,21 @@ const handleUserLogin = async () => {
     }
   };
 
-  const handleAdminLogin = async () => {
-    try {
-      const response = await axios.post("http://localhost:3000/admin/login", {
-        email,
-        password,
-      });
-      handleLoginResponse(response);
-    } catch (error) {
-      handleLoginError(error);
-    }
-  };
 
   const handleLoginResponse = (response) => {
-    if (response.status === 200 && response.data.token) {
-      const token = response.data.token;
+    const token = response.data.token;
+    console.log('res',response);
+    if(token){
+
       localStorage.setItem("token", token);
-      navigate(redirectPath);
-    } else {
+      if (response.data.role==='admin') {
+        navigate('/admin/dashboard');
+      }else if(response.data.role==='user'){
+        navigate('/home');
+    }
+
+    }
+     else {
       toast.error(response.data.message || "Failed to login");
     }
   };
@@ -92,11 +113,7 @@ const handleUserLogin = async () => {
       return;
     }
 
-    if (head === "Admin") {
-        handleAdminLogin();
-      } else {
-        handleUserLogin();
-      }
+    handleLogin();
 
   //   try{
   //     const response =await axios.post({
@@ -138,6 +155,7 @@ const handleUserLogin = async () => {
 //     toast.error("Failed to login");
 //   }
 };
+
 
  
   return (

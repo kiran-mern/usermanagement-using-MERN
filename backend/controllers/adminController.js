@@ -21,7 +21,7 @@ module.exports = {
         if (Password == password) {
           const Token = token(Email,adminData.role);
           console.log(Token,'www');
-          res.status(200).json({ message: "admin Loggedin", token: Token });
+          res.status(200).json({ message: "admin Loggedin",role:'admin', token: Token });
         } else {
           res.status(400).json({ message: "Invalid Password" });
         }

@@ -12,8 +12,6 @@ import axios from "axios";
 import { useUser } from "../../context/userContext";
 
 
-
-
 export default function AdminNavbar() {
   const navigate = useNavigate();
   const {triggerRefresh,updateSearchInput,searchInput,setSearchInput} = useUser();

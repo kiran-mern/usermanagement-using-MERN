@@ -4,7 +4,7 @@ const {registerUser,loginUser,home,validate}=require('../controllers/userControl
 
 
 router.post('/register',registerUser)
-router.post('/login',loginUser)
+router.post('/user/login',loginUser)
 router.get('/home',home)
 router.get('/valid',validate)
 

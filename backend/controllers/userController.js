@@ -37,7 +37,7 @@ module.exports = {
         if(match){
           const Token=token(email,user.role)
           console.log(Token,'an');
-          res.status(200).json({message:'user loggedIn',token:Token})
+          res.status(200).json({message:'user loggedIn',role:'user',token:Token})
         }else{
           res.status(400).json({message:'Invalid Password'})
         }

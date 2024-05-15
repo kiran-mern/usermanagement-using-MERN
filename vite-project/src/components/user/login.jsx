@@ -4,7 +4,7 @@ import axios from 'axios'
 
 const login = () => {
   return (
-    <Login head={"User"} redirectPath={'/home'}/>
+    <Login head={"user"} />
   )
 }
 

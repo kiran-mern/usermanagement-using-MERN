@@ -15,28 +15,26 @@ const Register = () => {
     e.preventDefault();
     setError("");
     
-    if (!name.trim()) {
-      toast.error("Name is required");
-        
-      return;
-    }
-    if (!email.trim()) {
-      toast.error("Email is required");
-      return;
-    }
+    const namePattern = /^[A-Za-z ]{3,}$/;
     const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    if (!emailPattern.test(email)) {
-      toast.error('Invalid email format');
-      return;
+    const passwordPattern = /^.{3,}$/;
+    const phonePattern = /^\d{10}$/;
+
+    if (!name.trim() || !namePattern.test(name)) {
+        toast.error("Name have minimum 3 letters");
+        return;
     }
-    if (!password.trim()) {
-      toast.error("Password is required");
-      return;
+    if (!email.trim() || !emailPattern.test(email)) {
+        toast.error("Invalid email format");
+        return;
     }
-   
-    if (!phone.trim()) {
-      toast.error("Phone No is required");
-      return;
+    if (!password.trim() || !passwordPattern.test(password)) {
+        toast.error("Password have minimum 3 characters");
+        return;
+    }
+    if (!phone.trim() || !phonePattern.test(phone)) {
+        toast.error("Phone No should contain 10 digits");
+        return;
     }
     
     try{
@@ -57,9 +55,7 @@ const Register = () => {
   
     }
   };
-
- 
-
+  
   return (
    
     
