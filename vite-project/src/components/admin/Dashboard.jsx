@@ -13,23 +13,24 @@ import Modal from "@mui/material/Modal";
 import { HiOutlineExclamationCircle } from "react-icons/hi";
 import axios from "axios";
 import { useUser } from "../../context/userContext";
+import { useNavigate } from "react-router-dom";
 // import AdminAdd from './adminAddUser'
 
 export default function DenseTable() {
+  const navigate=useNavigate()
   const [users, setUsers] = useState([]);
   const [openEditModal, setOpenEditModal] = useState(false);
   const [openModal, setOpenModal] = useState(false);
   const [deleteUserId, setDeleteUserId] = useState("");
-  const {triggerRefresh,updateSearchInput,searchInput} = useUser();
-
+  const { triggerRefresh, updateSearchInput, searchInput } = useUser();
 
   const [editUser, setEditUser] = useState({
     name: "",
     email: "",
     phone: "",
   });
-  
-  const token = localStorage.getItem("token");
+
+  const token = localStorage.getItem("admin");
 
   const handleDelete = (id) => {
     setOpenModal(true);
@@ -57,7 +58,7 @@ export default function DenseTable() {
       .then((response) => {
         console.log(response);
         // setRefresh((prev) => prev + 1);
-        triggerRefresh()
+        triggerRefresh();
         setOpenEditModal(false);
       })
       .catch((error) => {
@@ -76,9 +77,8 @@ export default function DenseTable() {
         },
       })
       .then((response) => {
-        console.log('aaa',response);
-        // setRefresh((prev) => prev + 1);
-        triggerRefresh()
+        console.log("aaa", response);
+        triggerRefresh();
         setOpenModal(false);
       })
       .catch((error) => {
@@ -88,91 +88,109 @@ export default function DenseTable() {
 
   useEffect(() => {
     const fetchUsers = async () => {
-      try {
-        const response = await axios.get("http://localhost:3000/admin/dashboard", {
-          headers: {
-            Authorization: token,
-          },
-          params:{
-            search:searchInput
-          }
-        });
-        setUsers(response.data.users);
-      } catch (error) {
-        console.log(error);
+      if (token) {
+        try {
+          const response = await axios.get(
+            "http://localhost:3000/admin/dashboard",
+            {
+              headers: {
+                Authorization: token,
+              },
+              params: {
+                search: searchInput,
+              },
+            }
+          );
+          setUsers(response.data.users);
+        } catch (error) {
+          console.log(error);
+          navigate("/admin");
+        }
+      } else {
+        navigate("/admin");
       }
     };
     fetchUsers();
-  }, [token, triggerRefresh,searchInput]);
+  }, [token, triggerRefresh, searchInput]);
 
-  
-  useEffect(()=>{
+
+  useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await axios.get(`http://localhost:3000/admin/search${searchInput ? `?search=${searchInput}` : ''}`, {
-          headers: {
-            Authorization: token
+        const response = await axios.get(
+          `http://localhost:3000/admin/search${
+            searchInput ? `?search=${searchInput}` : ""
+          }`,
+          {
+            headers: {
+              Authorization: token,
+            },
           }
-        });
-        console.log(response.data,'sssss');
+        );
+        console.log(response.data, "sssss");
         // Assuming setUser is a function to update state
         setUsers(response.data.data);
       } catch (error) {
-        console.error('Error fetching data:', error);
+        console.error("Error fetching data:", error);
       }
     };
-  
+
     fetchData(); // Call the function immediately
-  
+
     // Specify dependencies in the array below, if needed
-  }, [searchInput, token]); 
-  
-//   async function isValid(){
-//     // token=localStorage.getItem('token')
-//    try{
-     
-//      const response=await axios.get('http://localhost:3000/valid',{
-//        headers: {
-//          Authorization: `${token}`,
-//        }
-       
-//      })
-//      if(response.status===200 && response.data.message=="done"){
-//        navigate('/dashboard')
-//      }
-//    }catch(error){
-//      console.log(error);
+  }, [searchInput, token]);
 
-//    }
-//  }
+  //   async function isValid(){
+  //     // token=localStorage.getItem('token')
+  //    try{
 
-// useEffect(()=>{
-//  isValid()
-//    // navigate('/')
-// },[])
+  //      const response=await axios.get('http://localhost:3000/valid',{
+  //        headers: {
+  //          Authorization: `${token}`,
+  //        }
 
+  //      })
+  //      if(response.status===200 && response.data.message=="done"){
+  //        navigate('/dashboard')
+  //      }
+  //    }catch(error){
+  //      console.log(error);
+
+  //    }
+  //  }
+
+  // useEffect(()=>{
+  //  isValid()
+  //    // navigate('/')
+  // },[])
 
   return (
     <>
-    
       <TableContainer component={Paper}>
-        <Table size="small"  aria-label="a dense table">
+        <Table size="small" aria-label="a dense table">
           <TableHead>
-            <TableRow >
+            <TableRow>
               {/* <button>add</button> */}
-              <TableCell align='center'>Name</TableCell>
-              <TableCell  align='center'>Email</TableCell>
-              <TableCell  align='center'> Phone</TableCell>
-              <TableCell  align='center'>Actions</TableCell>
+              <TableCell align="center">Name</TableCell>
+              <TableCell align="center">Email</TableCell>
+              <TableCell align="center"> Phone</TableCell>
+              <TableCell align="center">Actions</TableCell>
             </TableRow>
           </TableHead>
           <TableBody>
             {users.map((user) => (
               <TableRow key={user._id}>
-                <TableCell  align='center'>{user.name}</TableCell>
-                <TableCell  align='center'>{user.email}</TableCell>
-                <TableCell  align='center'>{user.phone}</TableCell>
-                <TableCell  align='center' style={{ alignItems:'center',justifyContent:'space-evenly',display:'flex'}}> 
+                <TableCell align="center">{user.name}</TableCell>
+                <TableCell align="center">{user.email}</TableCell>
+                <TableCell align="center">{user.phone}</TableCell>
+                <TableCell
+                  align="center"
+                  style={{
+                    alignItems: "center",
+                    justifyContent: "space-evenly",
+                    display: "flex",
+                  }}
+                >
                   <Button
                     variant="contained"
                     color="primary"
@@ -204,12 +222,18 @@ export default function DenseTable() {
       >
         <div className="modal-content">
           <HiOutlineExclamationCircle className="modal-icon" />
-          <h2 id="delete-modal-title">Are you sure you want to delete this user?</h2>
+          <h2 id="delete-modal-title">
+            Are you sure you want to delete this user?
+          </h2>
           <div className="modal-buttons">
             <Button variant="contained" color="primary" onClick={confirmDelete}>
               Yes, I'm sure
             </Button>
-            <Button variant="contained" color="secondary" onClick={() => setOpenModal(false)}>
+            <Button
+              variant="contained"
+              color="secondary"
+              onClick={() => setOpenModal(false)}
+            >
               No, cancel
             </Button>
           </div>
@@ -232,13 +256,17 @@ export default function DenseTable() {
           <input
             type="email"
             value={editUser.email}
-            onChange={(e) => setEditUser({ ...editUser, email: e.target.value })}
+            onChange={(e) =>
+              setEditUser({ ...editUser, email: e.target.value })
+            }
             placeholder="Email"
           />
           <input
             type="tel"
             value={editUser.phone}
-            onChange={(e) => setEditUser({ ...editUser, phone: e.target.value })}
+            onChange={(e) =>
+              setEditUser({ ...editUser, phone: e.target.value })
+            }
             placeholder="Phone"
           />
           <Button variant="contained" color="primary" onClick={submitEdit}>

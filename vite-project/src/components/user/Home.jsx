@@ -4,7 +4,8 @@ import axios,{AxiosError} from 'axios';
 
 
 const Home = () => {
-  let token=localStorage.getItem('token')
+  let token=localStorage.getItem('user')
+  
 
  const navigate =useNavigate()
   const backgroundStyle = {
@@ -38,6 +39,8 @@ const Home = () => {
          navigate('/')
    
        }
+     }else{
+      navigate('/')
      }
   }
 
@@ -45,7 +48,7 @@ useEffect(()=>{
   console.log('count');
   isValid()
     // navigate('/')
-},[])
+},[token])
 
 
   return (

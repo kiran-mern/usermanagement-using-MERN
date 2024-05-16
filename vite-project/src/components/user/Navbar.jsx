@@ -13,7 +13,7 @@ const Navbar = () => {
   const navigate = useNavigate();
   const [user, setUser] = useState("");
   console.log(user, "anyone");
-  let token= localStorage.getItem("token");
+  let token= localStorage.getItem("user");
   console.log(token,'cultcult');
 
 
@@ -45,20 +45,6 @@ const Navbar = () => {
     setUser("");
     navigate("/");
   };
-
-  // useEffect(() => {
-  //   console.log(token,'tokentoken')
-  //   console.log(window.location.pathname,'path')
-  //   const handleNavigate = () => {
-  //     if (token !==null && !!JSON.stringify(token)) {
-  //       navigate('/home');
-  //     }
-  //   };
-  //   return ()=>{
-  //     console.log(1)
-  //     handleNavigate();
-  // }
-  // }, [navigate, window.location.pathname]);
 
   return (
     <Box sx={{ flexGrow: 1 }}>

@@ -76,20 +76,24 @@ const handleLogin = async () => {
 
   const handleLoginResponse = (response) => {
     const token = response.data.token;
-    console.log('res',response);
-    if(token){
+    console.log('restttt',response);
+    // if(token){
 
-      localStorage.setItem("token", token);
+      // localStorage.setItem("token", token);
       if (response.data.role==='admin') {
+        localStorage.setItem("admin", token);
+
         navigate('/admin/dashboard');
       }else if(response.data.role==='user'){
+        localStorage.setItem("user", token);
+
         navigate('/home');
     }
 
-    }
-     else {
-      toast.error(response.data.message || "Failed to login");
-    }
+    // }
+    //  else {
+    //   toast.error(response.data.message || "Failed to login");
+    // }
   };
   const handleLoginError = (error) => {
     console.log(error);

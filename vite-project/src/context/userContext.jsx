@@ -11,12 +11,7 @@ export const UserProvider = ({ children }) => {
   const [refresh,setRefresh]=useState(0)
   const [searchInput,setSearchInput]=useState(null)
 
-
-
-  const logoutUser = () => {
-    setUser(null);
-    localStorage.removeItem('user');
-  };
+  
   const triggerRefresh = () => {
     setRefresh((prevRefresh) => prevRefresh + 1);
   };

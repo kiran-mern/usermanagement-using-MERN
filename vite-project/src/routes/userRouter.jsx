@@ -5,9 +5,6 @@ import Login from "../pages/Login";
 import { UserProvider } from "../context/userContext";
 import RegisterPage from "../pages/Register";
 import Home from '../pages/Home'
-import AdminLogin from "../components/admin/AdminLogin";
-import DashBoard from '../pages/Dashboard'
-import AddUser from '../components/admin/adminAddUser'
 import ErrorPage from '../components/common/error'
 function userRouter() {
   return (
