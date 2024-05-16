@@ -8,19 +8,27 @@ module.exports = {
   registerUser: async (req, res) => {
     try {
       const { name, email, password, phone } = req.body;
+      const pswdLength=Object.values(password).length
       const datas = req.body;
       const user = await userH.findOne(email);
 
       if (user) {
         res.status(400).json({ error: "User already exists" });
       } else {
-        const newUser = await userH.createUser(datas);
+        if(pswdLength>=6){
 
-        const Token = token(email);
-        res.status(200).json({ message: "creating", token:Token});
+          const newUser = await userH.createUser(datas);
+  
+          const Token = token(email);
+          res.status(200).json({ message: "creating", token:Token});
+        }else{
+          res.status(400).json({ message:'Password should contain atleast 6 character' });
+        }
       }
     } catch (error) {
-      console.log(error);
+      const firstErrorKey = Object.keys(error.errors)[0]; 
+      const validationMessage = error.errors[firstErrorKey].message;
+      res.status(400).json({ error: validationMessage });
     }
   },
   loginUser: async (req, res) => {
