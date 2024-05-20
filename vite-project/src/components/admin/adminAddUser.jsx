@@ -160,17 +160,15 @@ function AdminAddUser({openModal,setOpenModal}) {
       if (response.status === 200) {
         // Reset form data
         setFormData({
-          name: "",
+          name: "", 
           email: "",
           phone: "",
           password: "",
         });
         // Close modal after successful registration
-        // setRefresh((prevRefresh)=>prevRefresh+1);
         setOpenModal(false);
         triggerRefresh()
 
-        // setOpenModal(false)
       } else {
         console.log("error", response.data);
       }
@@ -183,7 +181,6 @@ function AdminAddUser({openModal,setOpenModal}) {
 
   function onCloseModal() {
     setOpenModal(false);
-    // setEmail('');
   }
 
   

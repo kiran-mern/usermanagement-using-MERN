@@ -13,6 +13,8 @@ const userSchema= new mongoose.Schema({
     },
     phone:{
         type:String,
+        minLength:[10,'Phone No should be 10 digits'],
+        maxLength:[10,'Phone No should be 10 digits']
     },
     role:{
         type:String,

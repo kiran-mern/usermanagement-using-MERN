@@ -58,8 +58,7 @@ const handleToggleModal=()=>{
         </IconButton>
         <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
           <button
-            // style={{ backgroundColor: "grey" }}
-            // onClick={handleToggleModal}
+           
           >
             Admin
           </button>
@@ -72,11 +71,7 @@ const handleToggleModal=()=>{
             style={{ marginRight: '10px', padding: '5px' ,color:'black'}}
             value={searchInput}
             onChange={handleSearchInputChange}
-            // onChange={(e)=>{
-            //   setSearchInput(e.target.value)
-            //   searchInput(e.target.value)
-            // }}
-            // Add any necessary event handlers or state here
+            
           />
           {/* Add User Button */}
           <button

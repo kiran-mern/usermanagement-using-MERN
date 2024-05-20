@@ -17,7 +17,7 @@ const Register = () => {
     
     const namePattern = /^[A-Za-z ]{3,}$/;
     const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    const passwordPattern = /^.{3,}$/;
+    const passwordPattern = /^.{6,}$/;
     const phonePattern = /^\d{10}$/;
 
     if (!name.trim() || !namePattern.test(name)) {
@@ -29,7 +29,7 @@ const Register = () => {
         return;
     }
     if (!password.trim() || !passwordPattern.test(password)) {
-        toast.error("Password have minimum 3 characters");
+        toast.error("Password have minimum 6 characters");
         return;
     }
     if (!phone.trim() || !phonePattern.test(phone)) {
