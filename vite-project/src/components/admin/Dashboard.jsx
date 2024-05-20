@@ -57,7 +57,6 @@ export default function DenseTable() {
       })
       .then((response) => {
         console.log(response);
-        // setRefresh((prev) => prev + 1);
         triggerRefresh();
         setOpenEditModal(false);
       })
@@ -128,41 +127,17 @@ export default function DenseTable() {
           }
         );
         console.log(response.data, "sssss");
-        // Assuming setUser is a function to update state
         setUsers(response.data.data);
       } catch (error) {
         console.error("Error fetching data:", error);
       }
     };
 
-    fetchData(); // Call the function immediately
+    fetchData(); 
 
-    // Specify dependencies in the array below, if needed
   }, [searchInput, token]);
 
-  //   async function isValid(){
-  //     // token=localStorage.getItem('token')
-  //    try{
-
-  //      const response=await axios.get('http://localhost:3000/valid',{
-  //        headers: {
-  //          Authorization: `${token}`,
-  //        }
-
-  //      })
-  //      if(response.status===200 && response.data.message=="done"){
-  //        navigate('/dashboard')
-  //      }
-  //    }catch(error){
-  //      console.log(error);
-
-  //    }
-  //  }
-
-  // useEffect(()=>{
-  //  isValid()
-  //    // navigate('/')
-  // },[])
+ 
 
   return (
     <>
@@ -170,7 +145,6 @@ export default function DenseTable() {
         <Table size="small" aria-label="a dense table">
           <TableHead>
             <TableRow>
-              {/* <button>add</button> */}
               <TableCell align="center">Name</TableCell>
               <TableCell align="center">Email</TableCell>
               <TableCell align="center"> Phone</TableCell>

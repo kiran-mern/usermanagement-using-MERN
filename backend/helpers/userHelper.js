@@ -18,7 +18,8 @@ module.exports={
     findUser:async()=>{
         try{
     
-            const user= await User.find({})
+            const user= await User.find({active:true}).lean()
+            console.log(user,'users');
             return user;
         }catch(error){
             console.log(error);

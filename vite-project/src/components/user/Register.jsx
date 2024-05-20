@@ -149,6 +149,7 @@ const Register = () => {
                   type="tel"
                   name="phone"
                   id="phone"
+                  maxLength={10}
                   value={phone}
                   onChange={(e) => setPhone(e.target.value.trim())}
                   placeholder=""

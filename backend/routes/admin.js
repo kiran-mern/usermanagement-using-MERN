@@ -7,7 +7,7 @@ router.post('/login',adminLogin)
 router.get('/dashboard',adminAuth,dashboard)
 router.delete('/deleteuser',adminAuth,deleteUser)
 router.put('/editUser',adminAuth,editUser)
-router.post('/addUser',adminAuth,addUser)
+router.post('/addUser',addUser)
 router.get('/search',adminAuth,getUsers)
 router.get('/valid',adminAuth,validate)
 

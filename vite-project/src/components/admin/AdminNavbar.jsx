@@ -96,7 +96,6 @@ const handleToggleModal=()=>{
         </div>
       </Toolbar>
     </AppBar>
-    {/* {isModalOpen && <AdminAddUser openModal={openModal} setOpenModal={setOpenModal} />} */}
     <AdminAddUser openModal={openModal} setOpenModal={setOpenModal} />
   </Box>
   

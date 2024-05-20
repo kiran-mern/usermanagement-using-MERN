@@ -16,6 +16,19 @@ module.exports = {
       console.log(error);
     }
   },
+  inActive:async(Id)=>{
+    try{
+      const user=await User.findByIdAndUpdate(Id,{active:false},{new:true})
+      console.log('anything',user);
+      return user
+
+    }
+    catch(error){
+      console.log(error);
+
+    }
+
+  },
   updateuser: async (userId, data) => {
     try {
       const { name, phone } = data;
@@ -52,18 +65,24 @@ module.exports = {
       console.log(error);
     }
   },
-  userSearch:async(data)=>{
-    try{
-      const users=await User.find({
-        $or:[
-          {name:{$regex:data, $options:'i'}},
-          {email:{$regex:data, $options:'i'}}
+   userSearch:async (data) => {
+    try {
+      const users = await User.find({
+        $and: [
+          {active: true},
+          {
+            $or: [
+              { name: { $regex: data, $options: 'i' } },
+              { email: { $regex: data, $options: 'i' } }
+            ]
+          }
         ]
       });
       return users;
-    }catch(error){
+    } catch (error) {
       console.log(error);
     }
   }
+  
   
 };

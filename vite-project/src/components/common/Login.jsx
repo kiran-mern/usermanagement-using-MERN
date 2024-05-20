@@ -7,59 +7,10 @@ import "react-toastify/dist/ReactToastify.css";
 const Login = ({head}) => {
 
   const navigate=useNavigate()
-
-//   async function isValid(){
-//     token=localStorage.getItem('token')
-//    try{
-     
-//      const response=await axios.get('http://localhost:3000/valid',{
-//        headers: {
-//          Authorization: `${token}`,
-//        }
-       
-//      })
-//      if(response.status===200 && response.data.message=="done"){
-//        navigate('/home')
-//      }
-//    }catch(error){
-//      console.log(error);
-
-//    }
-//  }
-
-// useEffect(()=>{
-//  isValid()
-//    // navigate('/')
-// },[])
+  
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
-
-
-
-//   async function isValid(){
-//     const token=localStorage.getItem('token')
-//     try{
-      
-//       const response=await axios.get('http://localhost:3000/valid',{
-//         headers: {
-//           Authorization: `${token}`,
-//         }
-        
-//       })
-//       if(response.status===200 && response.data.message=="done"){
-
-//         navigate('/home')
-//       }
-//     }catch(error){
-//       console.log(error);
-
-//     }
-//   }
-
-// useEffect(()=>{
-//   isValid()
-// },[])
 
 const handleLogin = async () => {
     try {
@@ -119,45 +70,7 @@ const handleLogin = async () => {
 
     handleLogin();
 
-  //   try{
-  //     const response =await axios.post({
-  //       url: 'http://localhost:3000/login',
-  //       data: {
-  //           email,
-  //           password
-  //       }
-  //     });
-  //     console.log(response);
-  //     if(response.status==200){
-  //       const token=response.data.token
-  //       localStorage.setItem('token',token)
-  //       navigate('/home')
-  //       // navigate(-1)
-
-  //     }
-  
-  //   }
-  //   catch{
-  
-  //   }
-  // };
-//   try {
-//     const response = await axios.post(
-//       role === "admin" ? "http://localhost:3000/admin/login" : "http://localhost:3000/login",
-//       {
-//         email,
-//         password,
-//       }
-//     );
-//     if (response.status === 200 && response.data.token) {
-//       const token = response.data.token;
-//       localStorage.setItem(role, token);
-//       navigate(redirectPath);
-//     }
-//   } catch (error) {
-//     console.log(error);
-//     toast.error("Failed to login");
-//   }
+ 
 };
 
 
