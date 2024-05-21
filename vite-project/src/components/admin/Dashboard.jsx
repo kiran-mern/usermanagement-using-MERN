@@ -85,57 +85,112 @@ export default function DenseTable() {
       });
   };
 
+  // useEffect(() => {
+  //   const fetchData = async () => {
+  //     try {
+  //       const response = await axios.get(
+  //         `http://localhost:3000/admin/search${
+  //           searchInput ? `?search=${searchInput}` : ""
+  //         }`,
+  //         {
+  //           headers: {
+  //             Authorization: token,
+  //           },
+  //         }
+  //       );
+  //       console.log(response.data, "sssss");
+  //       setUsers(response.data.data);
+  //     } catch (error) {
+  //       console.error("Error fetching data:", error);
+  //     }
+  //   };
+
+  //   fetchData(); 
+
+  // }, [searchInput, token]);
+
+  // useEffect(() => {
+  //   const fetchUsers = async () => {
+  //     if (token) {
+  //       try {
+  //         const response = await axios.get(
+  //           "http://localhost:3000/admin/dashboard",
+  //           {
+  //             headers: {
+  //               Authorization: token,
+  //             },
+  //             params: {
+  //               search: searchInput,
+  //             },
+  //           }
+  //         );
+  //         setUsers(response.data.users);
+  //       } catch (error) {
+  //         console.log(error);
+  //         navigate("/admin");
+  //       }
+  //     } else {
+  //       navigate("/admin");
+  //     }
+  //   };
+  //   fetchUsers();
+  // }, [token, triggerRefresh,searchInput]);
+
+  // useEffect(() => {
+  //   const fetchData = async () => {
+  //     try {
+  //       const response = await axios.get(
+  //         `http://localhost:3000/admin/search${
+  //           searchInput ? `?search=${searchInput}` : ""
+  //         }`,
+  //         {
+  //           headers: {
+  //             Authorization: token,
+  //           },
+  //         }
+  //       );
+  //       console.log(response.data, "sssss");
+  //       setUsers(response.data.data);
+  //     } catch (error) {
+  //       console.error("Error fetching data:", error);
+  //     }
+  //   };
+
+  //   fetchData(); 
+
+  // }, [searchInput, token]);
+
   useEffect(() => {
-    const fetchUsers = async () => {
+    const fetchData = async () => {
       if (token) {
         try {
-          const response = await axios.get(
-            "http://localhost:3000/admin/dashboard",
-            {
-              headers: {
-                Authorization: token,
-              },
-              params: {
-                search: searchInput,
-              },
-            }
-          );
-          setUsers(response.data.users);
+          let url = "http://localhost:3000/admin/dashboard";
+          if (searchInput) {
+            url = `http://localhost:3000/admin/search?search=${searchInput}`;
+          }
+  
+          const response = await axios.get(url, {
+            headers: {
+              Authorization: token,
+            },
+          });
+  
+          const users = searchInput ? response.data.data : response.data.users;
+          setUsers(users);
         } catch (error) {
-          console.log(error);
+          console.error("Error fetching data:", error);
           navigate("/admin");
         }
       } else {
         navigate("/admin");
       }
     };
-    fetchUsers();
-  }, [token, triggerRefresh, searchInput]);
+  
+    fetchData();
+  }, [token, searchInput, triggerRefresh]);
+  
 
 
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const response = await axios.get(
-          `http://localhost:3000/admin/search${
-            searchInput ? `?search=${searchInput}` : ""
-          }`,
-          {
-            headers: {
-              Authorization: token,
-            },
-          }
-        );
-        console.log(response.data, "sssss");
-        setUsers(response.data.data);
-      } catch (error) {
-        console.error("Error fetching data:", error);
-      }
-    };
-
-    fetchData(); 
-
-  }, [searchInput, token]);
 
  
 

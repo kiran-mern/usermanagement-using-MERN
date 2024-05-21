@@ -11,9 +11,9 @@ export const UserProvider = ({ children }) => {
   const [refresh,setRefresh]=useState(0)
   const [searchInput,setSearchInput]=useState(null)
 
-  
+
   const triggerRefresh = () => {
-    setRefresh((prevRefresh) => prevRefresh + 1);
+    setRefresh((prevRefresh) => prevRefresh + 1);  
   };
   const updateSearchInput = async(value) => {
     setSearchInput(value);

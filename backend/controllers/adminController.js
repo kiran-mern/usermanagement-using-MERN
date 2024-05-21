@@ -39,20 +39,6 @@ module.exports = {
       res.status(400).json({ message: "not fetched" });
     }
   },
-  // deleteUser: async (req, res) => {
-  //   console.log(req.body);
-  //   const id = req.body.deleteUserId;
-  //   const finder=await userH.dFinder(id)
-  //   // console.log(finder,'e');
-  //   if(finder){
-  //       const softDelete=await adminH.userSoftDelete(finder)
-  //   }
-  //   const delUser = await userH.deleteUser(id);
-
-  //   res.status(200).json({message:'added'})
-  //   // console.log(delUser);
-  //   // res.status(200).json({ message: "User deleted successfully" });
-  // },
   deleteUser:async(req,res)=>{
     const id = req.body.deleteUserId;
     console.log(id,'id');
