@@ -1,6 +1,7 @@
 import React, { useEffect } from 'react';
 import { useNavigate } from "react-router-dom";
 import axios,{AxiosError} from 'axios';
+import ImageUrl from '../../data/zbHhQV.jpg'
 
 
 const Home = () => {
@@ -9,7 +10,7 @@ const Home = () => {
 
  const navigate =useNavigate()
   const backgroundStyle = {
-    backgroundImage: "linear-gradient(to bottom, rgba(0,0,0,0.5), rgba(0,0,0,0.5)), url('../data/zbHhQV.jpg')",
+    backgroundImage: 'linear-gradient(to bottom, rgba(0,0,0,0.5), rgba(0,0,0,0.5)), url(${ImageUrl})',
     backgroundSize: 'cover',
     backgroundPosition: 'center',
     backgroundRepeat: 'no-repeat',

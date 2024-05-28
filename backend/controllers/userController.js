@@ -35,7 +35,6 @@ module.exports = {
     try{
       const{email,password}=req.body
       const user=await userH.findOne(email)
-      console.log('one',user);
 
       if(!user){
         res.status(400).json({messsage:'invalid user'})
@@ -44,7 +43,6 @@ module.exports = {
         const match=await bcrypt.compare(password,user.password)
         if(match){
           const Token=token(email,user.role)
-          console.log(Token,'an');
           res.status(200).json({message:'user loggedIn',role:'user',token:Token})
         }else{
           res.status(400).json({message:'Invalid Password'})
@@ -58,18 +56,15 @@ module.exports = {
   },
   home:async(req,res)=>{
     const token=req.headers.authorization
-    // console.log('kk',token);
 
     jwt.verify(token,process.env.secret_key, async(err,user)=>{
       if(err) return res.sendStatus(403)
 
       req.user=user
-      console.log(req.user,'look');
       let email=req.user.email
 
       if(req.user.email && req.user.role==='user'){
         const user=await userH.findThatUser(email)
-        // console.log(user,'kaanuah');
         res.status(200).json({message:'done',users:user.name})
       }
     })

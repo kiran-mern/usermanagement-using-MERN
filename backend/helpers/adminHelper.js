@@ -5,7 +5,6 @@ const User = require("../models/user");
 module.exports = {
   userSoftDelete: async (deletedUser) => {
     try {
-      // console.log(deletedUser, "acdcd");
       const { email, phone } = deletedUser;
       const delUser = await DeletedUser.create({
         email: email,
@@ -19,7 +18,6 @@ module.exports = {
   inActive:async(Id)=>{
     try{
       const user=await User.findByIdAndUpdate(Id,{active:false},{new:true})
-      console.log('anything',user);
       return user
 
     }
@@ -44,7 +42,6 @@ module.exports = {
         },
         { new: true }
       );
-      // console.log(update, "update");
       return update;
     } catch {
       error;

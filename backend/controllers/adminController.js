@@ -9,7 +9,6 @@ module.exports = {
     const { email, password } = req.body;
 
     const adminData = await Admin.findOne({ email });
-    console.log(adminData,'datatatatat');
 
     if (!adminData) {
       res.status(400).json({ message: "no admin" });
@@ -20,7 +19,6 @@ module.exports = {
       if (Email == email) {
         if (Password == password) {
           const Token = token(Email,'admin');
-          console.log(Token,'www');
           res.status(200).json({ message: "admin Loggedin",role:'admin', token: Token });
         } else {
           res.status(400).json({ message: "Invalid Password" });
@@ -31,7 +29,6 @@ module.exports = {
     }
   },
   dashboard: async (req, res) => {
-    console.log('seerr');
     const user = await userH.findUser();
     if (user) {
       res.status(200).json({ message: "user data fetched", users: user });
@@ -41,13 +38,10 @@ module.exports = {
   },
   deleteUser:async(req,res)=>{
     const id = req.body.deleteUserId;
-    console.log(id,'id');
     try{
       const inactive=await adminH.inActive(id)
-      console.log(inactive,'id');
 
       const users=await userH.findUser();
-      console.log(users,'id');
 
       res.status(200).json({message:'deleted',users:users})
 
@@ -60,7 +54,6 @@ module.exports = {
 
   },
   editUser:async(req,res)=>{
-    console.log(req.body,'kkk')
     const data=req.body
     const id=req.body.id
     const update=await adminH.updateuser(id,data)
@@ -71,7 +64,6 @@ module.exports = {
     try{
         const{name,email,phone}=req.body
         const password=name.slice(0,3)+phone.slice(5)
-        console.log(password,'ppppp');
         const existingUser = await userH.adminUser(email);
         const data={name,email,password,phone}
         if(existingUser.length>0){
@@ -79,7 +71,6 @@ module.exports = {
         }
         else{
             const user=await userH.createUser(data);
-            console.log('admin_user',user);
             res.status(200).json({message:'user added by admin'})
         }
 
@@ -95,7 +86,6 @@ module.exports = {
      try{
       if(req.query.search){
         const result=await adminH.userSearch(req.query.search)
-        // console.log(result,'lol');
         return res.status(200).json({data:result})
 
       }

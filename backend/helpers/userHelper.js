@@ -3,7 +3,7 @@ const bcrypt= require('bcrypt')
 
 module.exports={
     findOne:async(email)=>{
-        const user=await User.findOne({email})
+        const user=await User.findOne({active:true,email:email})
         return user;
 
 
