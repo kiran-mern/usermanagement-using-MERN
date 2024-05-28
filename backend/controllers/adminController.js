@@ -78,7 +78,6 @@ module.exports = {
     }
     catch(error){
         console.log(error);
-        // res.status(400).json({message:'internal error'})
 
     }
   },

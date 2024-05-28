@@ -3,18 +3,7 @@ const DeletedUser = require("../models/deletedUser");
 const User = require("../models/user");
 
 module.exports = {
-  userSoftDelete: async (deletedUser) => {
-    try {
-      const { email, phone } = deletedUser;
-      const delUser = await DeletedUser.create({
-        email: email,
-        phone: phone,
-      });
-      return delUser;
-    } catch (error) {
-      console.log(error);
-    }
-  },
+
   inActive:async(Id)=>{
     try{
       const user=await User.findByIdAndUpdate(Id,{active:false},{new:true})
